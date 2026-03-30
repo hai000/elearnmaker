@@ -30,7 +30,6 @@ export default function AudioElement({
         loop={loop}
         showControls={controls}
         volume={volume as number}
-        interactive={interactive}
         label={audioUrl ? "Audio Clip" : "Chưa có nguồn âm thanh"}
         className="h-full w-full"
       />

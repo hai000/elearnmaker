@@ -4,8 +4,7 @@ import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEditorStore } from "@/store/editorStore";
-import { Upload, Music, Image as ImageIcon, Video, Trash2, CheckCircle2, Loader2 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Upload, Music, Image as ImageIcon, Video, Trash2, CheckCircle2, Loader2, FolderIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function MediaLibrary() {
@@ -157,21 +156,4 @@ export default function MediaLibrary() {
   );
 }
 
-function FolderIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z" />
-    </svg>
-  )
-}
+

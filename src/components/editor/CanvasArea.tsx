@@ -27,10 +27,6 @@ export default function CanvasArea() {
     () => elements.filter((element) => element.slideId === currentSlideId),
     [currentSlideId, elements]
   );
-  const currentSlideTitle = useMemo(
-    () => slides.find((slide) => slide.id === currentSlideId)?.title ?? "Slide",
-    [currentSlideId, slides]
-  );
   const currentSlideBackground = useMemo(
     () => slides.find((slide) => slide.id === currentSlideId)?.backgroundColor ?? "#ffffff",
     [currentSlideId, slides]
@@ -86,13 +82,13 @@ export default function CanvasArea() {
     );
   }, [containerSize, zoom]);
 
-  useEffect(() => {
+  const [prevSelectedId, setPrevSelectedId] = useState(selectedId);
+  if (selectedId !== prevSelectedId) {
+    setPrevSelectedId(selectedId);
     if (!selectedId) {
       setSelectedTarget(null);
-      return;
     }
-    setSelectedTarget(elementRefs.current[selectedId] ?? null);
-  }, [selectedId, currentSlideElements]);
+  }
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
@@ -215,7 +211,7 @@ export default function CanvasArea() {
                       ...data,
                       x: Math.max(0, x),
                       y: Math.max(0, y)
-                    } as any);
+                    } as Parameters<typeof addElement>[0]);
                   }
                 }
               } catch (err) {

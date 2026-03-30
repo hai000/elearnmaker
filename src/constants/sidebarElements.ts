@@ -1,7 +1,7 @@
 import type { SlideElement } from "@/store/editorStore";
 
 export const elementItems = ["Text", "Shapes", "Images", "Video", "Audio", "Button"] as const;
-export const interactionItems = ["Quiz", "Poll", "Flashcards"] as const;
+export const interactionItems = ["Quiz", "Sort", "Poll", "Flashcards"] as const;
 export const pluginItems = ["Mind Map", "Timeline", "Wheel", "Game"] as const;
 
 export type ElementItem = typeof elementItems[number];
@@ -99,6 +99,30 @@ export const elementInitialData: Record<string, Omit<SlideElement, "id" | "slide
       loop: false,
       controls: true,
       volume: 0.8,
+    },
+  },
+  Sort: {
+    type: "sort_game",
+    x: 200,
+    y: 80,
+    width: 400,
+    height: 340,
+    rotation: 0,
+    borderRadius: 16,
+    props: {
+      title: "Sắp xếp các bước đánh răng",
+      items: [
+        "Lấy kem đánh răng lên bàn chải",
+        "Chải mặt ngoài của răng",
+        "Chải mặt trong của răng",
+        "Chải mặt nhai",
+        "Súc miệng bằng nước sạch"
+      ],
+      checkLabel: "Kiểm tra đáp án",
+      titleSize: 18,
+      itemSize: 14,
+      textColor: "#1e293b",
+      backgroundColor: "#f8fafc",
     },
   },
 };

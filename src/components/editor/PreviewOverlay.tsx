@@ -23,14 +23,25 @@ export default function PreviewOverlay({ open, onClose }: PreviewOverlayProps) {
   const [viewportSize, setViewportSize] = useState({ width: 0, height: 0 });
   const [actionMessage, setActionMessage] = useState<string | null>(null);
   const [elementVisibilityOverrides, setElementVisibilityOverrides] = useState<Record<string, boolean>>({});
-  const [entryTime, setEntryTime] = useState(Date.now());
+  const entryTimeRef = useRef(0);
   const messageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
-  useEffect(() => {
+  const [prevSlideId, setPrevSlideId] = useState(currentSlideId);
+  const [prevOpen, setPrevOpen] = useState(open);
+
+  if (currentSlideId !== prevSlideId || open !== prevOpen) {
+    setPrevSlideId(currentSlideId);
+    setPrevOpen(open);
     setElementVisibilityOverrides({});
-    setEntryTime(Date.now());
-    if (messageTimeoutRef.current) clearTimeout(messageTimeoutRef.current);
     setActionMessage(null);
+  }
+
+  useEffect(() => {
+    entryTimeRef.current = Date.now();
+    if (messageTimeoutRef.current) {
+      clearTimeout(messageTimeoutRef.current);
+      messageTimeoutRef.current = null;
+    }
   }, [currentSlideId, open]);
 
   const currentSlide = slides.find((slide) => slide.id === currentSlideId);
@@ -105,7 +116,7 @@ export default function PreviewOverlay({ open, onClose }: PreviewOverlayProps) {
     if (element.props.actionType === "go_to_slide") {
       // Check Timelock
       if (currentSlide?.minDuration) {
-        const elapsedSeconds = (Date.now() - entryTime) / 1000;
+        const elapsedSeconds = (Date.now() - entryTimeRef.current) / 1000;
         if (elapsedSeconds < currentSlide.minDuration) {
           const remaining = Math.ceil(currentSlide.minDuration - elapsedSeconds);
           setActionMessage(`🔒 Bạn cần xem thêm ${remaining}s nữa.`);

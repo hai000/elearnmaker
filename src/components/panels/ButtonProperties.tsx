@@ -3,7 +3,6 @@ import { ColorPickerField } from "@/components/ui/color-picker";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useEditorStore } from "@/store/editorStore";
 import { VisibilityProperties } from "./properties/VisibilityProperties";
@@ -101,7 +100,7 @@ export default function ButtonProperties({ element, updateElement }: PropertiesP
           <Label className="text-xs font-medium text-slate-500 uppercase">On Click Behavior</Label>
           <Select
             value={element.props.actionType || "none"}
-            onValueChange={(val: any) =>
+            onValueChange={(val) =>
               updateElement(element.id, {
                 props: { ...element.props, actionType: val },
               })

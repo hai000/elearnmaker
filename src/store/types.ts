@@ -1,6 +1,6 @@
 export type ElementBase = {
   id: string;
-  type: "text" | "card" | "quiz" | "image" | "video" | "audio" | "button" | "wheel_plugin";
+  type: "text" | "card" | "quiz" | "image" | "video" | "audio" | "button" | "wheel_plugin" | "sort_game";
   slideId: string;
   x: number;
   y: number;
@@ -120,6 +120,19 @@ export type AudioElement = ElementBase & {
   };
 };
 
+export type SortGameElement = ElementBase & {
+  type: "sort_game";
+  props: {
+    title: string;
+    items: string[];
+    titleSize: number;
+    itemSize: number;
+    textColor: string;
+    backgroundColor: string;
+    checkLabel: string;
+  };
+};
+
 export type SlideElement =
   | TextElement
   | CardElement
@@ -128,7 +141,8 @@ export type SlideElement =
   | VideoElement
   | ButtonElement
   | WheelPluginElement
-  | AudioElement;
+  | AudioElement
+  | SortGameElement;
 
 export type SlideElementPatch = Partial<
   Pick<ElementBase, "x" | "y" | "width" | "height" | "rotation" | "borderRadius" | "zIndex" | "hidden" | "name" | "animation">

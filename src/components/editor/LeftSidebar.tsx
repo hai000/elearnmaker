@@ -58,7 +58,7 @@ export default function LeftSidebar() {
                       onClick={() => {
                         const data = elementInitialData[item as string];
                         if (data) {
-                          addElement(data as any);
+                          addElement(data as Parameters<typeof addElement>[0]);
                         }
                       }}
                     >
@@ -94,7 +94,7 @@ export default function LeftSidebar() {
                       onClick={() => {
                         const data = elementInitialData[item as string];
                         if (data) {
-                          addElement(data as any);
+                          addElement(data as Parameters<typeof addElement>[0]);
                         }
                       }}
                     >

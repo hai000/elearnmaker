@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import type { SlideElement, SlideElementPatch } from "@/store/editorStore";
+import type { SlideElement, SlideElementPatch } from "@/store/types";
 import AudioElement from "@/components/elements/AudioElement";
 import ButtonElement from "@/components/elements/ButtonElement";
 import CardElement from "@/components/elements/CardElement";
@@ -16,6 +16,8 @@ import QuizProperties from "@/components/panels/QuizProperties";
 import TextProperties from "@/components/panels/TextProperties";
 import VideoProperties from "@/components/panels/VideoProperties";
 import WheelProperties from "@/components/panels/WheelProperties";
+import SortGameElement from "@/components/elements/SortGameElement";
+import SortGameProperties from "@/components/panels/SortGameProperties";
 
 export type CanvasElementProps = {
   element: SlideElement;
@@ -64,6 +66,10 @@ export const pluginRegistry: Record<SlideElement["type"], RegistryEntry> = {
   audio: {
     canvasComponent: AudioElement,
     propertiesPanel: AudioProperties,
+  },
+  sort_game: {
+    canvasComponent: SortGameElement,
+    propertiesPanel: SortGameProperties,
   },
   wheel_plugin: {
     canvasComponent: WheelPlugin,
