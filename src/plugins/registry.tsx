@@ -1,0 +1,72 @@
+import type { ReactElement } from "react";
+import type { SlideElement, SlideElementPatch } from "@/store/editorStore";
+import AudioElement from "@/components/elements/AudioElement";
+import ButtonElement from "@/components/elements/ButtonElement";
+import CardElement from "@/components/elements/CardElement";
+import ImageElement from "@/components/elements/ImageElement";
+import QuizElement from "@/components/elements/QuizElement";
+import TextElement from "@/components/elements/TextElement";
+import VideoElement from "@/components/elements/VideoElement";
+import WheelPlugin from "@/components/elements/WheelPlugin";
+import AudioProperties from "@/components/panels/AudioProperties";
+import ButtonProperties from "@/components/panels/ButtonProperties";
+import CardProperties from "@/components/panels/CardProperties";
+import ImageProperties from "@/components/panels/ImageProperties";
+import QuizProperties from "@/components/panels/QuizProperties";
+import TextProperties from "@/components/panels/TextProperties";
+import VideoProperties from "@/components/panels/VideoProperties";
+import WheelProperties from "@/components/panels/WheelProperties";
+
+export type CanvasElementProps = {
+  element: SlideElement;
+  isSelected: boolean;
+  onSelect: () => void;
+  interactive?: boolean;
+  onAction?: (element: SlideElement) => void;
+  elementRef?: (node: HTMLDivElement | null) => void;
+};
+
+export type PropertiesPanelProps = {
+  element: SlideElement;
+  updateElement: (id: string, patch: SlideElementPatch) => void;
+};
+
+type RegistryEntry = {
+  canvasComponent: (props: CanvasElementProps) => ReactElement | null;
+  propertiesPanel: (props: PropertiesPanelProps) => ReactElement | null;
+};
+
+export const pluginRegistry: Record<SlideElement["type"], RegistryEntry> = {
+  text: {
+    canvasComponent: TextElement,
+    propertiesPanel: TextProperties,
+  },
+  button: {
+    canvasComponent: ButtonElement,
+    propertiesPanel: ButtonProperties,
+  },
+  card: {
+    canvasComponent: CardElement,
+    propertiesPanel: CardProperties,
+  },
+  quiz: {
+    canvasComponent: QuizElement,
+    propertiesPanel: QuizProperties,
+  },
+  image: {
+    canvasComponent: ImageElement,
+    propertiesPanel: ImageProperties,
+  },
+  video: {
+    canvasComponent: VideoElement,
+    propertiesPanel: VideoProperties,
+  },
+  audio: {
+    canvasComponent: AudioElement,
+    propertiesPanel: AudioProperties,
+  },
+  wheel_plugin: {
+    canvasComponent: WheelPlugin,
+    propertiesPanel: WheelProperties,
+  },
+};
