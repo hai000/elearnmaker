@@ -221,13 +221,13 @@ export const initialElements: SlideElement[] = [
     type: "quiz",
     x: 230,
     y: 152,
-    width: 500,
-    height: 260,
+    width: 425,
+    height: 285,
     rotation: 0,
     borderRadius: 18,
     animation: "slide-up",
     props: {
-      title: "Tính năng nào sau đây vừa được bổ sung vào hệ thống ElearnMaker?",
+      title: "Tính năng nào sau đây vừa được bổ sung vào hệ thống?",
       options: [
         "A. Hỗ trợ hiển thị 3D",
         "B. Thiết lập Slide Timelock & Animations",

@@ -22,6 +22,7 @@ export default function CanvasArea() {
   const saveSnapshot = useEditorStore((state) => state.saveSnapshot);
   const zoom = useEditorStore((state) => state.zoom);
   const setZoom = useEditorStore((state) => state.setZoom);
+  const isEditingText = useEditorStore((state) => state.isEditingText);
 
   const currentSlideElements = useMemo(
     () => elements.filter((element) => element.slideId === currentSlideId),
@@ -236,7 +237,7 @@ export default function CanvasArea() {
               />
             );
           })}
-          {selectedElement && selectedTarget ? (
+          {selectedElement && selectedTarget && !isEditingText ? (
             <SelectionTransformControls
               selectedElement={selectedElement}
               selectedTarget={selectedTarget}

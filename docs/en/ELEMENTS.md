@@ -1,6 +1,7 @@
 # Element Reference
 
-This document describes the elements currently available in ElearnMaker Studio, their key properties, and runtime/preview behavior.
+This document describes the elements currently available in the Studio, their key properties, and runtime/preview behavior.
+
 
 ## 1. Shared Model
 

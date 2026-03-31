@@ -1,6 +1,7 @@
 # Element Reference
 
-Tài liệu này mô tả các element hiện có trong ElearnMaker Studio, các thuộc tính chính và hành vi runtime/preview.
+Tài liệu này mô tả các element hiện có trong Studio, các thuộc tính chính và hành vi runtime/preview.
+
 
 ## 1. Mô hình chung
 

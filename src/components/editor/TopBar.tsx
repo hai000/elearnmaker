@@ -44,7 +44,7 @@ export default function TopBar({ onOpenPreview }: TopBarProps) {
         <div className="flex items-center gap-3">
           <div>
             <p className="text-[11px] uppercase tracking-[0.22em] text-slate-500">
-              ElearnMaker
+              Studio
             </p>
             <div className="flex items-center gap-2">
               <p className="font-[var(--font-display)] text-base font-semibold tracking-tight">

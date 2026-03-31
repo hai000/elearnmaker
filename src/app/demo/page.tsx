@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { DemoViewer } from "./DemoViewer";
 
 export const metadata: Metadata = {
-  title: "ElearnMaker | Demo",
-  description: "Trải nghiệm bài giảng mẫu từ ElearnMaker Studio",
+  title: "Studio | Demo",
+  description: "Trải nghiệm bài giảng mẫu từ Studio",
+
   viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0",
 };
 

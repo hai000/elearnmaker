@@ -20,31 +20,6 @@ export default function CardProperties({ element, updateElement }: PropertiesPan
         <CardTitle className="text-base">Card</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <div className="grid gap-2">
-          <Label htmlFor="card-title">Title</Label>
-          <Input
-            id="card-title"
-            value={element.props.title}
-            onChange={(event) =>
-              updateElement(element.id, {
-                props: { ...element.props, title: event.target.value },
-              })
-            }
-          />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="card-body">Body</Label>
-          <Textarea
-            id="card-body"
-            className="min-h-[90px]"
-            value={element.props.body}
-            onChange={(event) =>
-              updateElement(element.id, {
-                props: { ...element.props, body: event.target.value },
-              })
-            }
-          />
-        </div>
         <div className="grid grid-cols-2 gap-3">
           <div className="grid gap-2">
             <Label htmlFor="card-title-size">Title Size</Label>

@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import Moveable from "react-moveable";
 import type { SlideElement } from "@/store/editorStore";
+import { useEditorStore } from "@/store/editorStore";
 
 type SelectionTransformControlsProps = {
   selectedElement: SlideElement;
@@ -20,6 +21,7 @@ export function SelectionTransformControls({
   const dragOrigin = useRef<{ x: number; y: number } | null>(null);
   const resizeOrigin = useRef<{ x: number; y: number } | null>(null);
   const resizeDraft = useRef<{ width: number; height: number; x: number; y: number } | null>(null);
+  const setIsEditingText = useEditorStore((state) => state.setIsEditingText);
 
   return (
     <Moveable
@@ -29,6 +31,11 @@ export function SelectionTransformControls({
       rotatable
       origin={false}
       zoom={1 / scale}
+      onClick={(event) => {
+        if (event.isDouble && (selectedElement.type === "text" || selectedElement.type === "card")) {
+          setIsEditingText(true);
+        }
+      }}
       onDragStart={(event) => {
         saveSnapshot();
         dragOrigin.current = {

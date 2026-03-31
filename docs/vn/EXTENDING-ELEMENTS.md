@@ -1,6 +1,7 @@
 # Mở rộng Element
 
-Tài liệu này mô tả quy trình thêm một element mới vào ElearnMaker Studio.
+Tài liệu này mô tả quy trình thêm một element mới vào Studio.
+
 
 ## 1. Mục tiêu
 

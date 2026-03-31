@@ -48,10 +48,10 @@ export default function QuizElement({
               <Badge
                 key={`${option}-${index}`}
                 variant={index === quizElement.props.correctIndex ? "default" : "outline"}
-                className={`w-full justify-start rounded-lg px-3 py-2 text-left ${
+                className={`w-full justify-start rounded-xl px-4 py-3.5 text-left transition-all ${
                   index === quizElement.props.correctIndex
-                    ? "border-emerald-300 bg-emerald-50 text-emerald-700"
-                    : ""
+                    ? "border-emerald-300 bg-emerald-50 text-emerald-700 shadow-sm"
+                    : "border-slate-200 bg-white"
                 }`}
               >
                 <span className="mr-1.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border text-[9px] font-bold">

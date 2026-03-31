@@ -16,8 +16,10 @@ export const useEditorStore = create<EditorState>((set) => ({
   future: [],
   showHiddenElements: true,
   zoom: 0,
+  isEditingText: false,
   toggleShowHiddenElements: () => set((state) => ({ showHiddenElements: !state.showHiddenElements })),
   setZoom: (zoom) => set({ zoom }),
+  setIsEditingText: (isEditing: boolean) => set({ isEditingText: isEditing }),
   saveSnapshot: () =>
     set((state) => ({
       past: [...state.past, { slides: [...state.slides], elements: [...state.elements] }].slice(-50),
@@ -179,10 +181,15 @@ export const useEditorStore = create<EditorState>((set) => ({
   addElement: (element) =>
     set((state) => {
       const id = element.id ?? createId();
+      const maxZ = state.elements.reduce(
+        (max, el) => Math.max(max, el.zIndex ?? 0),
+        0
+      );
       const nextElement = {
         ...(element as Omit<SlideElement, "id">),
         id,
         slideId: element.slideId ?? state.currentSlideId,
+        zIndex: maxZ + 1,
       } as SlideElement;
       return {
         ...createSnapshotPatch(state),
@@ -223,11 +230,13 @@ export const useEditorStore = create<EditorState>((set) => ({
     set({
       currentSlideId: id,
       selectedId: null,
+      isEditingText: false,
     }),
   selectElement: (id) =>
     set((state) => {
-      if (!id) return { selectedId: null };
+      if (!id) return { selectedId: null, isEditingText: false };
 
+      const isSameElement = state.selectedId === id;
       const maxZ = state.elements.reduce(
         (max, el) => Math.max(max, el.zIndex ?? 0),
         0
@@ -235,8 +244,10 @@ export const useEditorStore = create<EditorState>((set) => ({
 
       return {
         selectedId: id,
+        // Only stop editing if we switch to a DIFFERENT element
+        isEditingText: isSameElement ? state.isEditingText : false,
         elements: state.elements.map((el) =>
-          el.id === id ? { ...el, zIndex: maxZ + 1 } as SlideElement : el
+          el.id === id ? ({ ...el, zIndex: maxZ + 1 } as SlideElement) : el
         ),
       };
     }),

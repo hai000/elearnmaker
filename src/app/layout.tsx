@@ -16,7 +16,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "ElearnMaker Studio",
+  title: "Studio",
+
   description: "Interactive e-learning editor with drag-and-drop canvas.",
 };
 

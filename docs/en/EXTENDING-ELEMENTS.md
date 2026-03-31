@@ -1,6 +1,7 @@
 # Extending Elements
 
-This document explains how to add a new element to ElearnMaker Studio.
+This document explains how to add a new element to the Studio.
+
 
 ## 1. Goal
 

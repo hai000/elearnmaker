@@ -3,7 +3,6 @@ import { forwardRef } from "react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-const selectedRing = "ring-2 ring-blue-400 ring-offset-2";
 const hoverShadow = "hover:shadow-md";
 
 type ElementShellProps = {
@@ -14,11 +13,13 @@ type ElementShellProps = {
   children: React.ReactNode;
   style?: React.CSSProperties;
   interactive?: boolean;
+  onDoubleClick?: () => void;
+  noShadow?: boolean;
 };
 
 const ElementShell = forwardRef<HTMLDivElement, ElementShellProps>(
   (
-    { element, isSelected, onSelect, className, children, style, interactive = true },
+    { element, isSelected, onSelect, onDoubleClick, className, children, style, interactive = true, noShadow = false },
     ref
   ) => {
     const animationClass = (() => {
@@ -42,10 +43,11 @@ const ElementShell = forwardRef<HTMLDivElement, ElementShellProps>(
         ref={ref}
         key={`${element.id}-${element.animation}`}
         className={cn(
-          "absolute overflow-hidden p-0 shadow-sm transition-shadow",
+          "absolute overflow-hidden p-0 transition-shadow",
+          !noShadow ? "shadow-sm" : "shadow-none ring-0 bg-transparent outline-none border-none",
           interactive ? "cursor-pointer" : "cursor-default",
           className,
-          interactive ? (isSelected ? selectedRing : hoverShadow) : null,
+          interactive ? (!isSelected && !noShadow && hoverShadow) : null,
           animationClass
         )}
         style={{
@@ -59,6 +61,12 @@ const ElementShell = forwardRef<HTMLDivElement, ElementShellProps>(
           ...style,
         }}
         onClick={interactive ? onSelect : undefined}
+        onDoubleClick={(e) => {
+          if (interactive && onDoubleClick) {
+            e.stopPropagation();
+            onDoubleClick();
+          }
+        }}
         role={interactive ? "button" : undefined}
         tabIndex={interactive ? 0 : -1}
         onKeyDown={

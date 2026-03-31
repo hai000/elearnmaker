@@ -1,6 +1,6 @@
 export type ElementBase = {
   id: string;
-  type: "text" | "card" | "quiz" | "image" | "video" | "audio" | "button" | "wheel_plugin" | "sort_game";
+  type: "text" | "card" | "quiz" | "image" | "video" | "audio" | "button" | "wheel_plugin" | "sort_game" | "shape";
   slideId: string;
   x: number;
   y: number;
@@ -17,10 +17,8 @@ export type ElementBase = {
 export type TextElement = ElementBase & {
   type: "text";
   props: {
-    title: string;
-    body: string;
-    titleSize: number;
-    bodySize: number;
+    text: string;
+    fontSize: number;
     textColor: string;
     backgroundColor: string;
   };
@@ -133,6 +131,16 @@ export type SortGameElement = ElementBase & {
   };
 };
 
+export type ShapeElement = ElementBase & {
+  type: "shape";
+  props: {
+    shapeType: "rectangle" | "circle" | "line";
+    fillColor: string;
+    strokeColor: string;
+    strokeWidth: number;
+  };
+};
+
 export type SlideElement =
   | TextElement
   | CardElement
@@ -142,7 +150,8 @@ export type SlideElement =
   | ButtonElement
   | WheelPluginElement
   | AudioElement
-  | SortGameElement;
+  | SortGameElement
+  | ShapeElement;
 
 export type SlideElementPatch = Partial<
   Pick<ElementBase, "x" | "y" | "width" | "height" | "rotation" | "borderRadius" | "zIndex" | "hidden" | "name" | "animation">
@@ -175,8 +184,10 @@ export type EditorState = {
   future: HistorySnapshot[];
   showHiddenElements: boolean;
   zoom: number;
+  isEditingText: boolean;
   toggleShowHiddenElements: () => void;
   setZoom: (zoom: number) => void;
+  setIsEditingText: (isEditing: boolean) => void;
   saveSnapshot: () => void;
   undo: () => void;
   redo: () => void;

@@ -18,6 +18,9 @@ import VideoProperties from "@/components/panels/VideoProperties";
 import WheelProperties from "@/components/panels/WheelProperties";
 import SortGameElement from "@/components/elements/SortGameElement";
 import SortGameProperties from "@/components/panels/SortGameProperties";
+import ShapeElement from "@/components/elements/ShapeElement";
+import ShapeProperties from "@/components/panels/ShapeProperties";
+
 
 export type CanvasElementProps = {
   element: SlideElement;
@@ -75,4 +78,9 @@ export const pluginRegistry: Record<SlideElement["type"], RegistryEntry> = {
     canvasComponent: WheelPlugin,
     propertiesPanel: WheelProperties,
   },
+  shape: {
+    canvasComponent: ShapeElement,
+    propertiesPanel: ShapeProperties,
+  },
 };
+

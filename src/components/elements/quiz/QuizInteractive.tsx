@@ -69,7 +69,7 @@ export function QuizInteractive({ element }: QuizInteractiveProps) {
           <Badge
             key={`${option}-${index}`}
             variant={getVariant(index)}
-            className={`w-full justify-start rounded-lg px-3 py-2 text-left transition-all duration-200 ${getClassName(index)}`}
+            className={`w-full justify-start rounded-xl px-4 py-3.5 text-left border shadow-sm transition-all duration-200 ${getClassName(index)}`}
             onClick={() => handleSelect(index)}
             role="button"
             tabIndex={0}
