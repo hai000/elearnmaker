@@ -45,7 +45,7 @@ export default function PreviewOverlay({ open, onClose }: PreviewOverlayProps) {
   }, [currentSlideId, open]);
 
   const currentSlide = slides.find((slide) => slide.id === currentSlideId);
-  const currentSlideTitle = currentSlide?.title ?? "Preview";
+  const currentSlideTitle = currentSlide?.title ?? "Xem trước";
   const currentSlideBackground = currentSlide?.backgroundColor ?? "#ffffff";
   const currentSlideAnimation = currentSlide?.animation ?? "none";
   

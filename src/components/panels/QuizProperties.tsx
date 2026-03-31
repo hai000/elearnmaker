@@ -36,11 +36,11 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base">Quiz</CardTitle>
+        <CardTitle className="text-base">Trắc nghiệm</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="grid gap-2">
-          <Label htmlFor="quiz-title">Title</Label>
+          <Label htmlFor="quiz-title">Tiêu đề</Label>
           <Input
             id="quiz-title"
             value={element.props.title}
@@ -64,7 +64,7 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
           />
         </div>
         <div className="grid gap-2">
-          <Label>Options</Label>
+          <Label>Tùy chọn</Label>
           <div className="space-y-2">
             {element.props.options.map((option, index) => (
               <div key={`opt-${index}`} className="flex items-center gap-2">
@@ -91,7 +91,7 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
               </div>
             ))}
           </div>
-          <Button variant="outline" size="sm" onClick={handleAddOption}>
+            <Button variant="outline" size="sm" onClick={handleAddOption}>
             + Thêm đáp án
           </Button>
         </div>
@@ -119,7 +119,7 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div className="grid gap-2">
-            <Label htmlFor="quiz-title-size">Title Size</Label>
+            <Label htmlFor="quiz-title-size">Kích thước tiêu đề</Label>
             <Input
               id="quiz-title-size"
               type="number"
@@ -134,7 +134,7 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="quiz-option-size">Option Size</Label>
+            <Label htmlFor="quiz-option-size">Kích thước đáp án</Label>
             <Input
               id="quiz-option-size"
               type="number"
@@ -151,7 +151,7 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
         </div>
         <div className="grid gap-3">
           <ColorPickerField
-            label="Text Color"
+            label="Màu chữ"
             value={element.props.textColor}
             swatches={textColorSwatches}
             description="Màu nội dung quiz"
@@ -162,7 +162,7 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
             }
           />
           <ColorPickerField
-            label="Background"
+            label="Nền"
             value={element.props.backgroundColor}
             swatches={surfaceSwatches}
             description="Màu nền của quiz"

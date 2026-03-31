@@ -17,11 +17,11 @@ export default function TextProperties({ element, updateElement }: PropertiesPan
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base">Text Document</CardTitle>
+        <CardTitle className="text-base">Văn bản</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="grid gap-2">
-          <Label htmlFor="text-font-size">Font Size</Label>
+          <Label htmlFor="text-font-size">Kích thước chữ</Label>
           <Input
             id="text-font-size"
             type="number"
@@ -37,7 +37,7 @@ export default function TextProperties({ element, updateElement }: PropertiesPan
         </div>
         <div className="grid gap-3">
           <ColorPickerField
-            label="Text Color"
+            label="Màu chữ"
             value={element.props.textColor}
             swatches={textColorSwatches}
             description="Màu chữ hiển thị"
@@ -48,7 +48,7 @@ export default function TextProperties({ element, updateElement }: PropertiesPan
             }
           />
           <ColorPickerField
-            label="Background"
+            label="Nền"
             value={element.props.backgroundColor}
             swatches={surfaceSwatches}
             description="Màu nền khối văn bản"

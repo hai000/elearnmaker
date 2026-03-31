@@ -19,7 +19,7 @@ type TopBarProps = {
 
 export default function TopBar({ onOpenPreview }: TopBarProps) {
   const currentSlideTitle = useEditorStore(
-    (state) => state.slides.find((slide) => slide.id === state.currentSlideId)?.title ?? "Slide"
+    (state) => state.slides.find((slide) => slide.id === state.currentSlideId)?.title ?? "Trang"
   );
   const currentSlideIndex = useEditorStore((state) =>
     Math.max(0, state.slides.findIndex((slide) => slide.id === state.currentSlideId))
@@ -47,16 +47,16 @@ export default function TopBar({ onOpenPreview }: TopBarProps) {
               Studio
             </p>
             <div className="flex items-center gap-2">
-              <p className="font-[var(--font-display)] text-base font-semibold tracking-tight">
-                Studio Editor
+              <p className="font-(--font-display) text-base tracking-tight">
+                Trình chỉnh sửa Studio
               </p>
-              <Badge variant="secondary">Draft</Badge>
+              <Badge variant="secondary">Nháp</Badge>
             </div>
           </div>
           <Separator orientation="vertical" className="mx-1 h-8" />
           <div>
             <p className="text-[11px] uppercase tracking-[0.22em] text-slate-400">
-              Lesson: Insurance Basics
+              Bài học: Bảo hiểm cơ bản
             </p>
             <p className="text-sm font-medium text-slate-700">
               Slide {currentSlideIndex + 1} · {currentSlideTitle}
@@ -83,14 +83,14 @@ export default function TopBar({ onOpenPreview }: TopBarProps) {
             value={zoom.toString()} 
             onValueChange={(val) => setZoom(parseFloat(val))}
           >
-            <SelectTrigger className="h-8 w-[130px] text-xs bg-slate-50/50">
-              <SelectValue placeholder="Zoom" />
+            <SelectTrigger className="h-8 w-32.5 text-xs bg-slate-50/50">
+              <SelectValue placeholder="Thu phóng" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="0" className="text-xs">
                 <div className="flex items-center gap-2 font-medium">
                   <MonitorIcon className="h-3 w-3" />
-                  Fit to screen
+                  Vừa với màn hình
                 </div>
               </SelectItem>
               <SelectItem value="0.25" className="text-xs">25%</SelectItem>
@@ -104,9 +104,9 @@ export default function TopBar({ onOpenPreview }: TopBarProps) {
         </div>
 
         <Button variant="outline" onClick={onOpenPreview}>
-          Preview
+          Xem trước
         </Button>
-        <Button variant="default">Publish</Button>
+        <Button variant="default">Xuất bản</Button>
         <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
           TH
         </div>

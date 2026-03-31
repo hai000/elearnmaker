@@ -15,15 +15,15 @@ export default function WheelProperties({ element, updateElement }: PropertiesPa
   return (
     <Card className="border-emerald-200 bg-emerald-50/60">
       <CardHeader>
-        <CardTitle className="text-base text-emerald-800">Wheel Plugin</CardTitle>
+        <CardTitle className="text-base text-emerald-800">Vòng quay</CardTitle>
         <CardDescription className="text-emerald-700/70">
-          Changes update the canvas in real time.
+          Các thay đổi cập nhật lên canvas ngay lập tức.
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="grid gap-2">
           <Label htmlFor="wheel-title" className="text-emerald-700">
-            Title
+            Tiêu đề
           </Label>
           <Input
             id="wheel-title"
@@ -37,7 +37,7 @@ export default function WheelProperties({ element, updateElement }: PropertiesPa
         </div>
         <div className="grid gap-2">
           <Label htmlFor="wheel-mode" className="text-emerald-700">
-            Mode
+            Chế độ
           </Label>
           <Input
             id="wheel-mode"
@@ -52,7 +52,7 @@ export default function WheelProperties({ element, updateElement }: PropertiesPa
         <div className="grid grid-cols-2 gap-3">
           <div className="grid gap-2">
             <Label htmlFor="wheel-title-size" className="text-emerald-700">
-              Title Size
+              Kích thước tiêu đề
             </Label>
             <Input
               id="wheel-title-size"
@@ -67,8 +67,8 @@ export default function WheelProperties({ element, updateElement }: PropertiesPa
               }
             />
           </div>
-          <ColorPickerField
-            label="Text Color"
+            <ColorPickerField
+            label="Màu chữ"
             value={element.props.textColor}
             swatches={textColorSwatches}
             description="Màu chữ cho vòng quay"
@@ -80,7 +80,7 @@ export default function WheelProperties({ element, updateElement }: PropertiesPa
           />
         </div>
         <ColorPickerField
-          label="Background"
+          label="Nền"
           value={element.props.backgroundColor}
           swatches={surfaceSwatches}
           description="Màu nền cho plugin"

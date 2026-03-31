@@ -17,12 +17,12 @@ export default function CardProperties({ element, updateElement }: PropertiesPan
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base">Card</CardTitle>
+        <CardTitle className="text-base">Thẻ nội dung</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="grid grid-cols-2 gap-3">
           <div className="grid gap-2">
-            <Label htmlFor="card-title-size">Title Size</Label>
+            <Label htmlFor="card-title-size">Kích thước tiêu đề</Label>
             <Input
               id="card-title-size"
               type="number"
@@ -37,7 +37,7 @@ export default function CardProperties({ element, updateElement }: PropertiesPan
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="card-body-size">Body Size</Label>
+            <Label htmlFor="card-body-size">Kích thước nội dung</Label>
             <Input
               id="card-body-size"
               type="number"
@@ -54,7 +54,7 @@ export default function CardProperties({ element, updateElement }: PropertiesPan
         </div>
         <div className="grid gap-3">
           <ColorPickerField
-            label="Text Color"
+            label="Màu chữ"
             value={element.props.textColor}
             swatches={textColorSwatches}
             description="Màu chữ trên card"
@@ -65,7 +65,7 @@ export default function CardProperties({ element, updateElement }: PropertiesPan
             }
           />
           <ColorPickerField
-            label="Background"
+            label="Nền"
             value={element.props.backgroundColor}
             swatches={surfaceSwatches}
             description="Màu nền của card"

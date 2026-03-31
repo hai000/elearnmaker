@@ -11,11 +11,11 @@ const textColorSwatches = ["#FFFFFF", "#0F172A", "#2563EB", "#0F766E", "#DC2626"
 const surfaceSwatches = ["#2563EB", "#0F172A", "#F59E0B", "#10B981", "#7C3AED"];
 
 const actionOptions = [
-  { value: "none", label: "None" },
-  { value: "go_to_slide", label: "Go to slide" },
-  { value: "show_element", label: "Show Element" },
-  { value: "hide_element", label: "Hide Element" },
-  { value: "toggle_element", label: "Toggle Element" },
+  { value: "none", label: "Không" },
+  { value: "go_to_slide", label: "Chuyển tới slide" },
+  { value: "show_element", label: "Hiển thị phần tử" },
+  { value: "hide_element", label: "Ẩn phần tử" },
+  { value: "toggle_element", label: "Chuyển đổi phần tử" },
 ] as const;
 
 export default function ButtonProperties({ element, updateElement }: PropertiesPanelProps) {
@@ -30,11 +30,11 @@ export default function ButtonProperties({ element, updateElement }: PropertiesP
     <div className="space-y-4">
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Button</CardTitle>
-        </CardHeader>
+            <CardTitle className="text-base">Nút</CardTitle>
+          </CardHeader>
       <CardContent className="grid gap-4">
         <div className="grid gap-2">
-          <Label htmlFor="button-label">Label</Label>
+          <Label htmlFor="button-label">Nhãn</Label>
           <Input
             id="button-label"
             value={element.props.label}
@@ -47,7 +47,7 @@ export default function ButtonProperties({ element, updateElement }: PropertiesP
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="button-size">Font size</Label>
+          <Label htmlFor="button-size">Kích thước chữ</Label>
           <Input
             id="button-size"
             type="number"
@@ -64,7 +64,7 @@ export default function ButtonProperties({ element, updateElement }: PropertiesP
 
         <div className="grid gap-3">
           <ColorPickerField
-            label="Text Color"
+            label="Màu chữ"
             value={element.props.textColor}
             swatches={textColorSwatches}
             description="Màu chữ trên button"
@@ -75,7 +75,7 @@ export default function ButtonProperties({ element, updateElement }: PropertiesP
             }
           />
           <ColorPickerField
-            label="Background"
+            label="Nền"
             value={element.props.backgroundColor}
             swatches={surfaceSwatches}
             description="Màu nền của button"
@@ -91,13 +91,13 @@ export default function ButtonProperties({ element, updateElement }: PropertiesP
     </Card>
 
     <Card>
-      <CardHeader>
-        <CardTitle className="text-base text-slate-800">Action Settings</CardTitle>
+        <CardHeader>
+        <CardTitle className="text-base text-slate-800">Cài đặt hành động</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
 
         <div className="grid gap-2">
-          <Label className="text-xs font-medium text-slate-500 uppercase">On Click Behavior</Label>
+          <Label className="text-xs font-medium text-slate-500 uppercase">Hành động khi nhấn</Label>
           <Select
             value={element.props.actionType || "none"}
             onValueChange={(val) =>
@@ -107,7 +107,7 @@ export default function ButtonProperties({ element, updateElement }: PropertiesP
             }
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select an action" />
+              <SelectValue placeholder="Chọn hành động" />
             </SelectTrigger>
             <SelectContent>
               {actionOptions.map((option) => (
@@ -121,7 +121,7 @@ export default function ButtonProperties({ element, updateElement }: PropertiesP
 
         {element.props.actionType === "go_to_slide" ? (
           <div className="grid gap-2">
-            <Label>Target slide</Label>
+            <Label>Slide đích</Label>
             <Select
               value={element.props.targetSlideId || ""}
               onValueChange={(val: string) =>
@@ -130,8 +130,8 @@ export default function ButtonProperties({ element, updateElement }: PropertiesP
                 })
               }
             >
-              <SelectTrigger>
-                <SelectValue placeholder="Select a slide" />
+                <SelectTrigger>
+                <SelectValue placeholder="Chọn slide" />
               </SelectTrigger>
               <SelectContent>
                 {slides.map((slide) => (
@@ -146,10 +146,10 @@ export default function ButtonProperties({ element, updateElement }: PropertiesP
 
         {["show_element", "hide_element", "toggle_element"].includes(element.props.actionType) ? (
           <div className="grid gap-2">
-            <Label htmlFor="button-target-elements">Target Elements</Label>
-            <div className="grid gap-2 border bg-slate-50 border-slate-200 p-3 rounded-md max-h-[160px] overflow-y-auto">
+            <Label htmlFor="button-target-elements">Phần tử đích</Label>
+            <div className="grid gap-2 border bg-slate-50 border-slate-200 p-3 rounded-md max-h-40 overflow-y-auto">
               {elements.filter(e => e.id !== element.id && e.slideId === element.slideId).length === 0 ? (
-                <p className="text-xs text-slate-500">No other elements on this slide.</p>
+                <p className="text-xs text-slate-500">Không có phần tử khác trên slide này.</p>
               ) : (
                 elements
                   .filter(e => e.id !== element.id && e.slideId === element.slideId)

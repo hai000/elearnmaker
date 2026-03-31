@@ -13,7 +13,7 @@ export function PreviewHeader({ currentSlideTitle, deviceId, setDeviceId, onClos
   return (
     <div className="flex items-center justify-between border-b border-slate-200/60 bg-white/95 px-6 py-4">
       <div>
-        <p className="text-[11px] uppercase tracking-[0.32em] text-slate-400">Preview</p>
+        <p className="text-[11px] uppercase tracking-[0.32em] text-slate-400">Xem trước</p>
         <p className="text-base font-semibold text-slate-900">{currentSlideTitle}</p>
       </div>
       <Tabs value={deviceId} onValueChange={(value) => setDeviceId(value as DeviceOption["id"])}>
@@ -29,7 +29,7 @@ export function PreviewHeader({ currentSlideTitle, deviceId, setDeviceId, onClos
         </TabsList>
       </Tabs>
       <Button variant="outline" onClick={onClose}>
-        Close
+        Đóng
       </Button>
     </div>
   );

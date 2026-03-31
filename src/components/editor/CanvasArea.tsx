@@ -155,7 +155,7 @@ export default function CanvasArea() {
       }}
     >
         <div 
-          className="relative flex min-h-0 flex-1 items-center justify-center font-[var(--font-display)]"
+          className="relative flex min-h-0 flex-1 items-center justify-center font-(--font-display)"
           style={{ 
             minWidth: zoom > 0 ? (baseSlide.width * scale) + 20 : "100%", 
             minHeight: zoom > 0 ? (baseSlide.height * scale) + 20 : "100%" 
