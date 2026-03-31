@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function DemoPage() {
   return (
-    <main className="w-screen h-screen overflow-hidden bg-black flex items-center justify-center">
+    <main className="w-full h-[100dvh] overflow-hidden bg-[#0a0a0a] flex items-center justify-center">
       <DemoViewer />
     </main>
   );

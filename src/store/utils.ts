@@ -17,6 +17,7 @@ export const createSlideId = () => {
 export const createSnapshotPatch = (state: EditorState) => ({
   past: [...state.past, { slides: state.slides, elements: state.elements }].slice(-50),
   future: [],
+  isDirty: true,
 });
 
 export const duplicateElement = (element: SlideElement, slideId: string): SlideElement => ({

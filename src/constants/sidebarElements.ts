@@ -10,7 +10,10 @@ import {
   ListOrdered,
   Circle as CircleIcon,
   Minus,
-  Layout
+  Layout,
+  PenTool,
+  ArrowRightLeft,
+  Gamepad2
 } from "lucide-react";
 
 export const SIDEBAR_CATEGORIES = [
@@ -34,7 +37,15 @@ export const SIDEBAR_CATEGORIES = [
     display: "Tương tác học tập",
     items: [
       { id: "Quiz", icon: CheckSquare, label: "Câu hỏi trắc nghiệm" },
+      { id: "Essay", icon: PenTool, label: "Câu hỏi tự luận" },
       { id: "Sort", icon: ListOrdered, label: "Sắp xếp quy trình" },
+    ]
+  },
+  {
+    display: "Game & Giải đố",
+    items: [
+      { id: "Matching", icon: ArrowRightLeft, label: "Trò chơi nối cặp" },
+      { id: "GuessWord", icon: Gamepad2, label: "Đuổi hình bắt chữ" },
     ]
   },
   {
@@ -126,7 +137,7 @@ export const elementInitialData: Record<string, Omit<SlideElement, "id" | "slide
     type: "quiz",
     x: 200,
     y: 100,
-    width: 400,
+    width: 450,
     height: 280,
     rotation: 0,
     borderRadius: 24,
@@ -141,10 +152,29 @@ export const elementInitialData: Record<string, Omit<SlideElement, "id" | "slide
       backgroundColor: "#ffffff",
     },
   },
+  Essay: {
+    type: "essay",
+    x: 200,
+    y: 80,
+    width: 450,
+    height: 320,
+    rotation: 0,
+    borderRadius: 20,
+    props: {
+      title: "Hãy nêu ý kiến của bạn về chủ đề này?",
+      placeholder: "Nhập nội dung trả lời tại đây...",
+      minLength: 10,
+      maxLength: 1000,
+      submitLabel: "Gửi ý kiến của bạn",
+      titleSize: 20,
+      textColor: "#0f172a",
+      backgroundColor: "#ffffff",
+    },
+  },
   Audio: {
     type: "audio",
-    x: 20,
-    y: 20,
+    x: 300,
+    y: 200,
     width: 300,
     height: 80,
     rotation: 0,
@@ -162,7 +192,7 @@ export const elementInitialData: Record<string, Omit<SlideElement, "id" | "slide
     x: 200,
     y: 80,
     width: 450,
-    height: 380,
+    height: 420,
     rotation: 0,
     borderRadius: 20,
     props: {
@@ -177,6 +207,49 @@ export const elementInitialData: Record<string, Omit<SlideElement, "id" | "slide
       titleSize: 18,
       itemSize: 14,
       textColor: "#1e293b",
+      backgroundColor: "#ffffff",
+    },
+  },
+  Matching: {
+    type: "matching",
+    x: 150,
+    y: 50,
+    width: 600,
+    height: 450,
+    rotation: 0,
+    borderRadius: 20,
+    props: {
+      title: "Nối các cặp có ý nghĩa tương đương",
+      pairs: [
+        { id: "p1", left: "Quả Táo", right: "Apple" },
+        { id: "p2", left: "Quả Cam", right: "Orange" },
+        { id: "p3", left: "Quả Chuối", right: "Banana" },
+      ],
+      titleSize: 20,
+      itemSize: 14,
+      textColor: "#1e293b",
+      backgroundColor: "#ffffff",
+    },
+  },
+  GuessWord: {
+    type: "guess_word",
+    x: 180,
+    y: 50,
+    width: 500,
+    height: 480,
+    rotation: 0,
+    borderRadius: 24,
+    props: {
+      title: "Đây là quốc gia nào?",
+      imageUrls: [
+        "https://images.unsplash.com/photo-1599427303058-f04cbcf4756f?q=80&w=500",
+        "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=500"
+      ],
+      answer: "VIETNAM",
+      hint: "Đất nước hình chữ S",
+      successMessage: "Chúc mừng! Bạn đã trả lời đúng quốc gia Việt Nam.",
+      titleSize: 22,
+      textColor: "#0f172a",
       backgroundColor: "#ffffff",
     },
   },

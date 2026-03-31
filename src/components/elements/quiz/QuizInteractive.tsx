@@ -85,9 +85,8 @@ export function QuizInteractive({ element }: QuizInteractiveProps) {
       {status !== "idle" && (
         <div className="mt-3 flex items-center justify-between gap-2">
           <span
-            className={`text-xs font-semibold ${
-              status === "correct" ? "text-emerald-600" : "text-red-500"
-            }`}
+            className={`text-xs font-semibold ${status === "correct" ? "text-emerald-600" : "text-red-500"
+              }`}
           >
             {status === "correct" ? "🎉 Chính xác!" : "❌ Sai rồi!"}
           </span>

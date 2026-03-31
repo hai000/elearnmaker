@@ -8,11 +8,21 @@ import { elementInitialData } from "@/constants/sidebarElements";
 import { baseSlide } from "@/constants/previewDevices";
 import { useLayoutEffect } from "react";
 
+import { useShallow } from "zustand/shallow";
+
 export default function CanvasArea() {
-  const elements = useEditorStore((state) => state.elements);
-  const slides = useEditorStore((state) => state.slides);
   const currentSlideId = useEditorStore((state) => state.currentSlideId);
   const selectedId = useEditorStore((state) => state.selectedId);
+  
+  // Use shallow to only re-render if the array of elements on THIS slide changes
+  const currentSlideElements = useEditorStore(
+    useShallow((state) => state.elements.filter((el) => el.slideId === state.currentSlideId))
+  );
+
+  const currentSlide = useEditorStore(
+    useShallow((state) => state.slides.find((s) => s.id === state.currentSlideId))
+  );
+
   const selectElement = useEditorStore((state) => state.selectElement);
   const addElement = useEditorStore((state) => state.addElement);
   const updateElement = useEditorStore((state) => state.updateElement);
@@ -20,22 +30,13 @@ export default function CanvasArea() {
   const undo = useEditorStore((state) => state.undo);
   const redo = useEditorStore((state) => state.redo);
   const saveSnapshot = useEditorStore((state) => state.saveSnapshot);
+  
   const zoom = useEditorStore((state) => state.zoom);
   const setZoom = useEditorStore((state) => state.setZoom);
   const isEditingText = useEditorStore((state) => state.isEditingText);
 
-  const currentSlideElements = useMemo(
-    () => elements.filter((element) => element.slideId === currentSlideId),
-    [currentSlideId, elements]
-  );
-  const currentSlideBackground = useMemo(
-    () => slides.find((slide) => slide.id === currentSlideId)?.backgroundColor ?? "#ffffff",
-    [currentSlideId, slides]
-  );
-  const currentSlideAnimation = useMemo(
-    () => slides.find((slide) => slide.id === currentSlideId)?.animation ?? "none",
-    [currentSlideId, slides]
-  );
+  const currentSlideBackground = currentSlide?.backgroundColor ?? "#ffffff";
+  const currentSlideAnimation = currentSlide?.animation ?? "none";
 
   const animationClass = useMemo(() => {
     switch(currentSlideAnimation) {

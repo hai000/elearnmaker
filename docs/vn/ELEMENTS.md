@@ -110,6 +110,8 @@ Props:
 
 - `title`: tiêu đề quiz.
 - `options`: danh sách lựa chọn.
+- `correctIndex`: index của đáp án đúng (0-based).
+- `retryLabel`: tin nhắn hiển thị khi người dùng chọn sai.
 - `titleSize`: cỡ chữ tiêu đề.
 - `optionSize`: cỡ chữ lựa chọn.
 - `textColor`: màu chữ.
@@ -117,10 +119,87 @@ Props:
 
 Hành vi:
 
-- Hiển thị một danh sách lựa chọn dạng badge.
-- Hiện tại là phần tử hiển thị tương tác, chưa có cơ chế chấm điểm.
+- Hiển thị danh sách lựa chọn. 
+- Khi người dùng chọn, hệ thống sẽ kiểm tra với `correctIndex`.
+- Nếu sai, sẽ hiển thị `retryLabel` để gợi ý người dùng làm lại.
 
-## 8. Element Button
+## 8. Element Audio
+
+Type: `audio`
+
+Props:
+
+- `audioUrl`: đường dẫn file âm thanh (vd: `/uploads/demo.mp3`).
+- `autoplay`: tự động phát khi vào slide.
+- `loop`: lặp lại âm thanh.
+- `controls`: hiển thị trình điều khiển (play/pause/volume).
+- `volume`: âm lượng mặc định (0 - 1).
+
+Hành vi:
+
+- Render trình phát nhạc tối giản hoặc ẩn (nếu không có controls).
+- Dùng cho các bài tập nghe hiểu hoặc nhạc nền slide.
+
+## 9. Element Essay (Tự luận)
+
+Type: `essay`
+
+Props:
+
+- `title`: câu hỏi tự luận.
+- `placeholder`: văn bản gợi ý trong ô nhập liệu.
+- `submitLabel`: nhãn nút nộp bài.
+- `minLength`: số ký tự tối thiểu.
+- `maxLength`: số ký tự tối đa.
+- `titleSize`: cỡ chữ câu hỏi.
+- `textColor`: màu chữ.
+- `backgroundColor`: màu nền.
+
+Hành vi:
+
+- Cung cấp ô textarea cho người dùng nhập liệu dài.
+- Kiểm tra độ dài văn bản trước khi cho phép nộp.
+
+## 10. Element Matching (Nối cặp)
+
+Type: `matching`
+
+Props:
+
+- `title`: yêu cầu của trò chơi.
+- `pairs`: danh sách các cặp nối (id, left, right).
+- `titleSize`: cỡ chữ tiêu đề.
+- `itemSize`: cỡ chữ các mục nối.
+- `textColor`: màu chữ.
+- `backgroundColor`: màu nền.
+
+Hành vi:
+
+- Trò chơi tương tác cho phép kéo nối giữa các mục ở cột trái và cột phải.
+- Tự động kiểm tra tính đúng đắn khi tất cả các cặp được nối.
+
+## 11. Element Guess Word (Đuổi hình bắt chữ)
+
+Type: `guess_word`
+
+Props:
+
+- `title`: tiêu đề trò chơi.
+- `imageUrls`: danh sách các ảnh gợi ý (array).
+- `answer`: đáp án (không dấu, in hoa).
+- `hint`: gợi ý khi người dùng gặp khó khăn.
+- `successMessage`: thông điệp chúc mừng khi thắng.
+- `titleSize`: cỡ chữ tiêu đề.
+- `textColor`: màu chữ.
+- `backgroundColor`: màu nền.
+
+Hành vi:
+
+- Hiển thị các ô chữ trống tương ứng với độ dài `answer`.
+- Người dùng nhập ký tự để giải mã.
+- Hỗ trợ hiển thị nhiều ảnh gợi ý cùng lúc.
+
+## 12. Element Button
 
 Type: `button`
 
@@ -132,48 +211,19 @@ Props:
 - `actionType`: kiểu action, gồm:
   - `none`
   - `go_to_slide`
-  - `trigger`
+  - `show_element` (mới): Hiển thị một element đang ẩn.
 - `targetSlideId`: slide đích khi action là `go_to_slide`.
-- `triggerName`: tên trigger khi action là `trigger`.
+- `targetElementIds` (mới): mảng ID các element cần hiển thị khi dùng `show_element`.
 - `buttonSize`: cỡ chữ của nút.
 
 Hành vi:
 
-- Trong editor, Button vẫn là một element có thể chọn, kéo và resize như các element khác.
-- Trong preview/runtime:
-  - `none`: không làm gì.
-  - `go_to_slide`: chuyển sang slide có `id` tương ứng với `targetSlideId`.
-  - `trigger`: kích hoạt một trigger logic, hiện tại được mô phỏng bằng message trong preview.
+- Điều hướng slide hoặc kích hoạt logic hiển thị element động ngay trong trang.
 
-Gợi ý dùng:
+---
 
-- Dùng cho CTA như Start, Next, Open Quiz, Jump to section.
-- Dùng `go_to_slide` khi cần điều hướng theo flow bài học.
-- Dùng `trigger` khi muốn mở rộng sang rule khác, ví dụ show hint, mở modal, bật audio.
+## 13. Ghi chú về Editor & Preview
 
-## 9. Element Wheel Plugin
-
-Type: `wheel_plugin`
-
-Props:
-
-- `title`
-- `mode`
-- `titleSize`
-- `textColor`
-- `backgroundColor`
-
-Hành vi:
-
-- Dùng như một plugin mẫu cho element dạng gamification.
-- Có thể mở rộng thêm logic riêng theo plugin registry.
-
-## 10. Ghi chú về preview
-
-Preview hiện hỗ trợ 3 device profile:
-
-- Desktop
-- Tablet
-- Mobile landscape
-
-Preview render cùng dữ liệu slide thật trong store, nên các action của Button sẽ hoạt động theo slide hiện tại.
+- **Editor**: Sử dụng hệ thống `PropertyCard` thống nhất để chỉnh sửa thuộc tính cho tất cả các loại element.
+- **Preview/Viewer**: Áp dụng công nghệ **Scale Wrapper** để đảm bảo tỷ lệ 16:9 luôn hiển thị trọn vẹn và căn giữa trên mọi thiết bị (iPhone, iPad, Desktop).
+- **Responsive**: Sử dụng đơn vị `dvh` (Dynamic Viewport Height) để xử lý thanh địa chỉ trình duyệt trên mobile.

@@ -28,13 +28,17 @@ import { Label } from "@/components/ui/label";
 
 const surfaceSwatches = ["#FFFFFF", "#F8FAFC", "#EFF6FF", "#F5F3FF", "#ECFDF5", "#FFF7ED"];
 
+import { useShallow } from "zustand/shallow";
+
 export default function PropertiesPanel() {
   const selectedId = useEditorStore((state) => state.selectedId);
-  const element = useEditorStore((state) =>
-    state.elements.find((item) => item.id === selectedId)
+  const element = useEditorStore(
+    useShallow((state) => state.elements.find((item) => item.id === selectedId))
   );
   const currentSlideId = useEditorStore((state) => state.currentSlideId);
-  const currentSlide = useEditorStore((state) => state.slides.find((s) => s.id === state.currentSlideId));
+  const currentSlide = useEditorStore(
+    useShallow((state) => state.slides.find((s) => s.id === state.currentSlideId))
+  );
   const updateSlide = useEditorStore((state) => state.updateSlide);
   const updateElement = useEditorStore((state) => state.updateElement);
   const deleteElement = useEditorStore((state) => state.deleteElement);

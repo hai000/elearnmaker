@@ -20,12 +20,20 @@ Easily add basic geometric shapes to your slide from the left toolbar:
 
 ## 4. Presentation & Flow Control
 - **Slide Timelock**: Set a minimum viewing time (0-60s) for each slide before navigation is allowed.
-- **Entrance Animation**: Smooth transitions (Fade, Slide, Zoom, Bounce) to bring your slides to life.
+- **Alpha Transparency**: Full support for 8-digit Hex colors (`#RRGGBBAA`). Use the opacity slider in the Color Picker to create semi-transparent backgrounds and overlays.
+- **Micro-Animations**: Smooth transitions (Fade, Slide, Zoom, Bounce) to bring your slides and elements to life.
 
-## 5. Efficiency Shortcuts
+## 5. Project Persistence & Management
+- **Export & Import**: Save your entire project as a local `.json` file and import it anytime to resume editing.
+- **Save & History Reset**: Use the **Save** button to commit your changes as a new baseline, which clears the undo/redo buffer to maintain peak performance.
+- **Slide Renaming**: Double-click any slide title in the **Timeline** or click the slide name in the **TopBar** to rename it instantly.
+- **Status Indicators**: Real-time Badge showing **Saved** (Green) or **Draft** (Gray) status based on your latest edits.
+
+## 6. Efficiency Shortcuts
+- `Ctrl + S`: Save project and clear editing history.
 - `Ctrl + Z` / `Ctrl + Y`: Undo and Redo operations.
 - `Delete` / `Backspace`: Quickly remove selected elements.
 - `Ctrl + Scroll`: Zoom in/out of the workspace.
 
 ---
-*Last updated: March 31, 2026*
+*Last updated: March 31, 2026 (Refactor & Sync)*

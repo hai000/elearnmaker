@@ -20,6 +20,12 @@ import SortGameElement from "@/components/elements/SortGameElement";
 import SortGameProperties from "@/components/panels/SortGameProperties";
 import ShapeElement from "@/components/elements/ShapeElement";
 import ShapeProperties from "@/components/panels/ShapeProperties";
+import GuessWordElement from "@/components/elements/GuessWordElement";
+import GuessWordProperties from "@/components/panels/GuessWordProperties";
+import MatchingElement from "@/components/elements/MatchingElement";
+import MatchingProperties from "@/components/panels/MatchingProperties";
+import EssayElement from "@/components/elements/EssayElement";
+import EssayProperties from "@/components/panels/EssayProperties";
 
 
 export type CanvasElementProps = {
@@ -81,6 +87,18 @@ export const pluginRegistry: Record<SlideElement["type"], RegistryEntry> = {
   shape: {
     canvasComponent: ShapeElement,
     propertiesPanel: ShapeProperties,
+  },
+  guess_word: {
+    canvasComponent: GuessWordElement,
+    propertiesPanel: GuessWordProperties,
+  },
+  matching: {
+    canvasComponent: MatchingElement,
+    propertiesPanel: MatchingProperties,
+  },
+  essay: {
+    canvasComponent: EssayElement,
+    propertiesPanel: EssayProperties,
   },
 };
 

@@ -1,11 +1,17 @@
+"use client";
+
+import React from "react";
 import type { PropertiesPanelProps } from "@/plugins/registry";
 import { ColorPickerField } from "@/components/ui/color-picker";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { VisibilityProperties } from "./properties/VisibilityProperties";
+import { PropertyCard } from "./properties/PropertyCard";
+import { Trash2, PlusCircle, HelpCircle, CheckCircle2, Palette } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Separator } from "@/components/ui/separator";
 
 const textColorSwatches = ["#0F172A", "#334155", "#1D4ED8", "#7C3AED", "#0F766E", "#DC2626"];
 const surfaceSwatches = ["#FFFFFF", "#F8FAFC", "#EFF6FF", "#F5F3FF", "#ECFDF5", "#FFF7ED"];
@@ -34,15 +40,15 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-base">Trắc nghiệm</CardTitle>
-      </CardHeader>
-      <CardContent className="grid gap-4">
-        <div className="grid gap-2">
-          <Label htmlFor="quiz-title">Tiêu đề</Label>
+    <div className="space-y-4 pb-6">
+      <PropertyCard 
+        title="Nội dung câu hỏi" 
+        icon={<HelpCircle className="w-4 h-4 text-blue-500" />}
+      >
+        <div className="grid gap-2 min-w-0">
+          <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tiêu đề</Label>
           <Input
-            id="quiz-title"
+            className="bg-white border-slate-200"
             value={element.props.title}
             onChange={(event) =>
               updateElement(element.id, {
@@ -51,10 +57,11 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
             }
           />
         </div>
-        <div className="grid gap-2">
-          <Label htmlFor="quiz-retry-label">Nút thử lại</Label>
+
+        <div className="grid gap-2 min-w-0">
+          <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Nút thử lại</Label>
           <Input
-            id="quiz-retry-label"
+            className="bg-white border-slate-200 h-9"
             value={element.props.retryLabel ?? "Thử lại"}
             onChange={(event) =>
               updateElement(element.id, {
@@ -63,13 +70,35 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
             }
           />
         </div>
-        <div className="grid gap-2">
-          <Label>Tùy chọn</Label>
+      </PropertyCard>
+
+      <PropertyCard 
+        title="Đáp án & Thiết lập" 
+        icon={<CheckCircle2 className="w-4 h-4 text-emerald-500" />}
+        action={
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="h-7 px-2 text-[10px] uppercase font-bold text-blue-600 hover:text-blue-700 hover:bg-blue-50" 
+            onClick={handleAddOption}
+          >
+            <PlusCircle className="mr-1.5 h-3.5 w-3.5" />
+            Thêm
+          </Button>
+        }
+      >
+        <div className="grid gap-3 min-w-0">
           <div className="space-y-2">
             {element.props.options.map((option, index) => (
-              <div key={`opt-${index}`} className="flex items-center gap-2">
+              <div key={`opt-${index}`} className="flex items-center gap-2 w-full min-w-0">
+                <div className={cn(
+                  "flex items-center justify-center w-7 h-9 shrink-0 rounded-lg text-[10px] font-bold transition-all border",
+                  correctIndex === index ? "bg-emerald-500 text-white border-emerald-600 shadow-sm" : "bg-slate-100 text-slate-500 border-slate-200"
+                )}>
+                  {String.fromCharCode(65 + index)}
+                </div>
                 <Input
-                  className="flex-1"
+                  className="flex-1 min-w-0 bg-slate-50 focus:bg-white transition-all h-9 text-xs"
                   value={option}
                   onChange={(event) => {
                     const nextOptions = [...element.props.options];
@@ -81,22 +110,22 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
                 />
                 <Button
                   variant="ghost"
-                  size="sm"
-                  className="h-8 w-8 shrink-0 p-0 text-slate-400 hover:text-red-500"
+                  size="icon"
+                  className="h-9 w-9 shrink-0 text-slate-400 hover:text-red-500 hover:bg-red-50"
                   onClick={() => handleRemoveOption(index)}
                   disabled={element.props.options.length <= 2}
                 >
-                  🗑
+                  <Trash2 className="h-4 w-4" />
                 </Button>
               </div>
             ))}
           </div>
-            <Button variant="outline" size="sm" onClick={handleAddOption}>
-            + Thêm đáp án
-          </Button>
         </div>
-        <div className="grid gap-2">
-          <Label>Đáp án đúng</Label>
+
+        <Separator className="opacity-50" />
+
+        <div className="grid gap-2 min-w-0">
+          <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Đáp án đúng</Label>
           <Select
             value={String(correctIndex)}
             onValueChange={(value) =>
@@ -105,26 +134,30 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
               })
             }
           >
-            <SelectTrigger>
+            <SelectTrigger className="bg-slate-50 h-9">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {element.props.options.map((option, index) => (
                 <SelectItem key={`correct-${index}`} value={String(index)}>
-                  {String.fromCharCode(65 + index)}. {option.replace(/^[A-Z]\.\s*/, "")}
+                  {String.fromCharCode(65 + index)}. {option.substring(0, 25)}...
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div className="grid gap-2">
-            <Label htmlFor="quiz-title-size">Kích thước tiêu đề</Label>
+      </PropertyCard>
+
+      <PropertyCard 
+        title="Giao diện & Màu sắc" 
+        icon={<Palette className="w-4 h-4 text-purple-500" />}
+      >
+        <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-2 min-w-0">
+            <Label className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">Cỡ tiêu đề</Label>
             <Input
-              id="quiz-title-size"
               type="number"
-              min={12}
-              max={48}
+              className="h-8 text-xs bg-slate-50"
               value={element.props.titleSize}
               onChange={(event) =>
                 updateElement(element.id, {
@@ -133,13 +166,11 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
               }
             />
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="quiz-option-size">Kích thước đáp án</Label>
+          <div className="grid gap-2 min-w-0">
+            <Label className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">Cỡ đáp án</Label>
             <Input
-              id="quiz-option-size"
               type="number"
-              min={10}
-              max={32}
+              className="h-8 text-xs bg-slate-50"
               value={element.props.optionSize}
               onChange={(event) =>
                 updateElement(element.id, {
@@ -149,12 +180,12 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
             />
           </div>
         </div>
-        <div className="grid gap-3">
+
+        <div className="grid gap-4 pt-1">
           <ColorPickerField
             label="Màu chữ"
             value={element.props.textColor}
             swatches={textColorSwatches}
-            description="Màu nội dung quiz"
             onChange={(nextColor) =>
               updateElement(element.id, {
                 props: { ...element.props, textColor: nextColor },
@@ -162,10 +193,9 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
             }
           />
           <ColorPickerField
-            label="Nền"
+            label="Màu nền"
             value={element.props.backgroundColor}
             swatches={surfaceSwatches}
-            description="Màu nền của quiz"
             onChange={(nextColor) =>
               updateElement(element.id, {
                 props: { ...element.props, backgroundColor: nextColor },
@@ -173,8 +203,10 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
             }
           />
         </div>
+        
+        <Separator className="opacity-50" />
         <VisibilityProperties element={element} updateElement={updateElement} />
-      </CardContent>
-    </Card>
+      </PropertyCard>
+    </div>
   );
 }

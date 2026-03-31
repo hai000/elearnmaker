@@ -153,3 +153,13 @@ body {
 .animate-progress-grow {
   animation: progress-grow linear forwards;
 }
+
+.bg-checkered {
+  background-image: conic-gradient(
+    #e5e7eb 90deg,
+    #ffffff 90deg 180deg,
+    #e5e7eb 180deg 270deg,
+    #ffffff 270deg
+  );
+  background-size: 8px 8px;
+}

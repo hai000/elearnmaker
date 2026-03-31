@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { type SlideElement, useEditorStore } from "@/store/editorStore";
 import { pluginRegistry } from "@/plugins/registry";
 
@@ -10,7 +11,7 @@ type ElementRendererProps = {
   elementRef?: (node: HTMLDivElement | null) => void;
 };
 
-export default function ElementRenderer({
+const ElementRenderer = memo(function ElementRenderer({
   element,
   isSelected,
   onSelect,
@@ -39,4 +40,6 @@ export default function ElementRenderer({
       elementRef={elementRef}
     />
   );
-}
+});
+
+export default ElementRenderer;

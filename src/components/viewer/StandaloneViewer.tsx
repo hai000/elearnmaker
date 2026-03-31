@@ -22,23 +22,29 @@ export function StandaloneViewer() {
   // Responsive Scaling Observer
   useLayoutEffect(() => {
     const updateScale = () => {
-      if (containerRef.current) {
-        const { clientWidth, clientHeight } = containerRef.current;
-        // Calculate required scale to embed the 16:9 base format tightly into the screen space
-        const scaleX = clientWidth / baseSlide.width;
-        const scaleY = clientHeight / baseSlide.height;
-        // Keep a 98% cap so it doesn't scrape the screen edges roughly
-        setScale(Math.min(scaleX, scaleY) * 1);
-      }
+      // Use window dimensions for the source of truth to avoid container growth loops
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      
+      const scaleX = windowWidth / baseSlide.width;
+      const scaleY = windowHeight / baseSlide.height;
+      
+      // Use a slightly larger buffer (0.95) for reliability on mobile bars/notches
+      setScale(Math.min(scaleX, scaleY) * 0.95);
     };
     
     updateScale();
+    const observer = new ResizeObserver(() => updateScale());
+    if (containerRef.current) {
+        observer.observe(containerRef.current);
+    }
+    
     window.addEventListener("resize", updateScale);
     window.addEventListener("orientationchange", () => setTimeout(updateScale, 150));
     
     return () => {
+      observer.disconnect();
       window.removeEventListener("resize", updateScale);
-      window.removeEventListener("orientationchange", () => {});
     };
   }, []);
 
@@ -149,7 +155,7 @@ export function StandaloneViewer() {
   if (!currentSlide) return null;
 
   return (
-    <div ref={containerRef} className="flex-1 w-full h-full flex items-center justify-center bg-[#0a0a0a] relative">
+    <div ref={containerRef} className="w-full h-full flex items-center justify-center bg-[#0a0a0a] relative select-none">
        {/* Global System Alerts */}
        {actionMessage && (
         <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[100] animate-in fade-in slide-in-from-top-4 duration-300">
@@ -159,52 +165,67 @@ export function StandaloneViewer() {
         </div>
       )}
 
-      {/* Frame Scaler - Scales Content Area proportionally into the user's viewport without bleeding out */}
+      {/* 
+         Scale Wrapper: 
+         - The outer div has the EXACT scaled dimensions.
+         - This allows the parent (flex items-center justify-center) to center it correctly.
+      */}
       <div 
         style={{
-           width: baseSlide.width,
-           height: baseSlide.height,
-           transform: `scale(${scale})`,
-           transformOrigin: "center center",
+            width: baseSlide.width * scale,
+            height: baseSlide.height * scale,
         }}
-        className="relative shadow-2xl overflow-hidden ring-1 ring-white/10"
+        className="relative shadow-2xl overflow-hidden ring-1 ring-white/10 flex items-center justify-center"
       >
         <div 
-           key={`${currentSlideId}-${currentSlideAnimation}`}
-           className={`relative h-full w-full ${animationClass}`}
-           style={{ backgroundColor: currentSlideBackground }}
+            style={{
+               width: baseSlide.width,
+               height: baseSlide.height,
+               transform: `scale(${scale})`,
+               transformOrigin: "top left",
+               position: "absolute",
+               top: 0,
+               left: 0,
+            }}
+            className="overflow-hidden"
         >
-            {/* Visual Timeline Lock feedback */}
-            {minDuration > 0 && (
-              <div 
-                className="absolute bottom-0 left-0 h-1 bg-violet-500 z-[9999] animate-progress-grow origin-left"
-                style={{ animationDuration: `${minDuration}s` }} 
-              />
-            )}
-           
-            <div className="absolute inset-0 bg-[linear-gradient(160deg,_rgba(226,232,240,0.5),_transparent_45%)] mix-blend-multiply opacity-50" />
-            
-            <div className="absolute inset-0">
-               {elements.map((element) => {
-                  let isVisible = !element.hidden;
-                  if (elementVisibilityOverrides[element.id] !== undefined) {
-                    isVisible = elementVisibilityOverrides[element.id];
-                  }
+          <div 
+             key={`${currentSlideId}-${currentSlideAnimation}`}
+             className={`relative h-full w-full ${animationClass}`}
+             style={{ backgroundColor: currentSlideBackground }}
+          >
+              {/* Visual Timeline Lock feedback */}
+              {minDuration > 0 && (
+                <div 
+                  className="absolute bottom-0 left-0 h-1 bg-violet-500 z-[9999] animate-progress-grow origin-left"
+                  style={{ animationDuration: `${minDuration}s` }} 
+                />
+              )}
+             
+              <div className="absolute inset-0 bg-[linear-gradient(160deg,_rgba(226,232,240,0.5),_transparent_45%)] mix-blend-multiply opacity-50" />
+              
+              <div className="absolute inset-0">
+                 {elements.map((element) => {
+                    let isVisible = !element.hidden;
+                    if (elementVisibilityOverrides[element.id] !== undefined) {
+                      isVisible = elementVisibilityOverrides[element.id];
+                    }
 
-                  if (!isVisible) return null;
+                    if (!isVisible) return null;
 
-                  return (
-                    <ElementRenderer
-                      key={element.id}
-                      element={element}
-                      isSelected={false}
-                      onSelect={() => {}}
-                      interactive={false}
-                      onAction={handleElementAction}
-                    />
-                  );
-                })}
-            </div>
+                    return (
+                      <ElementRenderer
+                        key={element.id}
+                        element={element}
+                        isSelected={false}
+                        onSelect={() => {}}
+                        interactive={false}
+                        onAction={handleElementAction}
+                      />
+                    );
+                  })}
+              </div>
+          </div>
         </div>
       </div>
     </div>
