@@ -38,7 +38,7 @@ export function AnimationProperties({ element, updateElement }: AnimationPropert
         </SelectContent>
       </Select>
       <p className="text-[10px] text-slate-400 leading-tight italic">
-        Triggers when the element becomes visible in Preview.
+        Kích hoạt khi phần tử hiển thị trong chế độ xem trước.
       </p>
     </div>
   );

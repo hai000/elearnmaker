@@ -32,11 +32,11 @@ export default function MediaLibrary() {
       if (data.success) {
         addAsset(data.asset);
       } else {
-        alert("Upload failed: " + data.error);
+        alert("Tải lên thất bại: " + data.error);
       }
     } catch (error) {
       console.error("Upload error:", error);
-      alert("An error occurred during upload.");
+      alert("Đã xảy ra lỗi khi tải lên.");
     } finally {
       setIsUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = "";

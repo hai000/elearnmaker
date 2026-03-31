@@ -18,11 +18,11 @@ export default function LeftSidebar() {
           <TabsList className="grid w-full grid-cols-2 bg-slate-100/80 p-1 rounded-lg">
             <TabsTrigger value="components" className="gap-2 text-xs font-semibold data-[state=active]:bg-white data-[state=active]:shadow-sm transition-all">
               <LayoutPanelLeft className="h-3.5 w-3.5" />
-              Components
+              Thành phần
             </TabsTrigger>
             <TabsTrigger value="media" className="gap-2 text-xs font-semibold data-[state=active]:bg-white data-[state=active]:shadow-sm transition-all">
               <FolderIcon className="h-3.5 w-3.5" />
-              Media
+              Thư viện
             </TabsTrigger>
           </TabsList>
         </div>
@@ -79,10 +79,10 @@ export default function LeftSidebar() {
               
               <div className="mt-2 p-4 rounded-xl border border-dashed border-slate-200 bg-slate-50/30">
                 <p className="text-[11px] text-slate-400 text-center leading-relaxed">
-                  More components coming soon in the Plugin Library
+                  Sẽ có thêm thành phần trong Thư viện plugin
                 </p>
                 <Button variant="ghost" className="w-full mt-3 text-xs h-8 text-blue-600 hover:bg-blue-50 hover:text-blue-700">
-                  Browse Plugins
+                  Duyệt plugin
                 </Button>
               </div>
             </div>

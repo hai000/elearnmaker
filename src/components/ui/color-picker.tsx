@@ -113,8 +113,8 @@ function ColorPickerField({
           aria-hidden="true"
         />
         <span className="min-w-0 flex-1">
-          <span className="block text-sm font-medium text-slate-900">Open color picker</span>
-          <span className="block text-xs text-slate-500">{description}</span>
+            <span className="block text-sm font-medium text-slate-900">Mở bộ chọn màu</span>
+            <span className="block text-xs text-slate-500">{description}</span>
         </span>
         <Palette className="size-4 text-slate-400 transition group-hover:text-slate-600" />
       </button>
@@ -129,8 +129,8 @@ function ColorPickerField({
             >
               <div className="flex items-center justify-between gap-3 border-b border-slate-100 pb-2">
                 <div className="min-w-0">
-                  <div className="text-sm font-medium text-slate-900">Choose a color</div>
-                  <div className="text-xs text-slate-500">Swatches and picker stay floating</div>
+                  <div className="text-sm font-medium text-slate-900">Chọn màu</div>
+                  <div className="text-xs text-slate-500">Mẫu màu và công cụ chọn sẽ ở dạng nổi</div>
                 </div>
                 <span
                   className="h-8 w-8 shrink-0 rounded-lg border border-slate-200"
@@ -162,7 +162,7 @@ function ColorPickerField({
 
               <div className="mt-3 grid gap-2">
                 <label className="block text-xs font-medium uppercase tracking-[0.18em] text-slate-500">
-                  Custom
+                  Tùy chỉnh
                 </label>
                 <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 p-2">
                   <span
@@ -184,7 +184,7 @@ function ColorPickerField({
                     onClick={() => nativeInputRef.current?.click()}
                     className="shrink-0 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-100"
                   >
-                    Picker
+                    Mở chọn màu
                   </button>
                   <input
                     ref={nativeInputRef}

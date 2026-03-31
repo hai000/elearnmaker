@@ -31,7 +31,7 @@ export default function VideoElement({
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center bg-muted/40">
-          <Badge variant="secondary">Add video URL</Badge>
+          <Badge variant="secondary">Thêm URL video</Badge>
         </div>
       )}
     </ElementShell>

@@ -26,12 +26,12 @@ export default function ImageElement({
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={element.props.imageUrl}
-          alt="Image"
+          alt="Hình ảnh"
           className="h-full w-full object-cover"
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center bg-muted/40">
-          <Badge variant="secondary">Add image URL</Badge>
+          <Badge variant="secondary">Thêm URL hình ảnh</Badge>
         </div>
       )}
     </ElementShell>

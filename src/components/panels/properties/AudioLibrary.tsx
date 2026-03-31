@@ -33,6 +33,16 @@ export function AudioLibrary({ onSelect, currentUrl }: AudioLibraryProps) {
 
   const categories: AudioSample["category"][] = ["Nature", "Music", "Tech", "Classroom"];
 
+  const categoryLabel = (cat: AudioSample["category"]) => {
+    switch(cat) {
+      case "Nature": return "Thiên nhiên";
+      case "Music": return "Âm nhạc";
+      case "Tech": return "Công nghệ";
+      case "Classroom": return "Lớp học";
+      default: return cat;
+    }
+  };
+
   return (
     <div className="mt-4 flex flex-col gap-4 rounded-lg border border-slate-200 bg-slate-50/50 p-3">
       <audio 
@@ -45,11 +55,11 @@ export function AudioLibrary({ onSelect, currentUrl }: AudioLibraryProps) {
         className="hidden" 
       />
       
-      <Tabs defaultValue="Nature" className="w-full">
+      <Tabs defaultValue={categories[0]} className="w-full">
         <TabsList className="grid w-full grid-cols-4 h-8">
           {categories.map((cat) => (
             <TabsTrigger key={cat} value={cat} className="text-[10px] px-1">
-              {cat}
+              {categoryLabel(cat)}
             </TabsTrigger>
           ))}
         </TabsList>

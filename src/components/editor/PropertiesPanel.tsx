@@ -57,12 +57,12 @@ export default function PropertiesPanel() {
       onPointerDownCapture={handleInteractionStart}
       onFocusCapture={handleInteractionStart}
     >
-      <div className="flex items-center justify-between px-5 py-5">
+        <div className="flex items-center justify-between px-5 py-5">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-          Element Properties
+          Thuộc tính phần tử
         </p>
         <Button variant="outline" size="sm">
-          Reset
+          Đặt lại
         </Button>
       </div>
       <Separator />
@@ -70,14 +70,14 @@ export default function PropertiesPanel() {
         {!element ? (
           <Card className="mx-px border bg-white">
             <CardHeader className="space-y-3">
-              <CardTitle className="text-base">Slide Properties</CardTitle>
+              <CardTitle className="text-base">Thuộc tính slide</CardTitle>
               <CardDescription>
-                Edit properties for the current slide.
+                Chỉnh sửa thuộc tính cho slide hiện tại.
               </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4 text-sm text-slate-500">
               <ColorPickerField
-                label="Background Color"
+                label="Màu nền"
                 value={currentSlide?.backgroundColor || "#ffffff"}
                 swatches={surfaceSwatches}
                 description="Màu nền toàn bề mặt slide"
@@ -86,25 +86,25 @@ export default function PropertiesPanel() {
                 }
               />
               <div className="space-y-2 pt-2 border-t border-slate-100">
-                <Label className="text-xs font-semibold text-slate-500">Entrance Animation</Label>
+                <Label className="text-xs font-semibold text-slate-500">Hiệu ứng vào</Label>
                 <Select
                   value={currentSlide?.animation || "none"}
                   onValueChange={(value) => updateSlide(currentSlideId, { animation: value })}
                 >
                   <SelectTrigger className="w-full bg-slate-50">
-                    <SelectValue placeholder="Select animation..." />
+                    <SelectValue placeholder="Chọn hiệu ứng..." />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="none">None</SelectItem>
-                    <SelectItem value="fade">Fade In</SelectItem>
-                    <SelectItem value="slide-up">Slide Up</SelectItem>
-                    <SelectItem value="zoom">Zoom In</SelectItem>
+                    <SelectItem value="none">Không</SelectItem>
+                    <SelectItem value="fade">Mờ vào</SelectItem>
+                    <SelectItem value="slide-up">Trượt lên</SelectItem>
+                    <SelectItem value="zoom">Phóng to</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-              <div className="space-y-4 pt-2 border-t border-slate-100">
+                <div className="space-y-4 pt-2 border-t border-slate-100">
                 <div className="flex items-center justify-between">
-                  <Label className="text-xs font-semibold text-slate-500">Minimum Viewing Time</Label>
+                  <Label className="text-xs font-semibold text-slate-500">Thời gian xem tối thiểu</Label>
                   <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
                     {currentSlide?.minDuration || 0}s
                   </span>
@@ -120,7 +120,7 @@ export default function PropertiesPanel() {
                   }
                 />
                 <p className="text-[10px] text-slate-400 leading-relaxed italic">
-                  Prevents navigation to the next slide until the specified time has passed during preview.
+                  Chặn chuyển sang slide tiếp theo cho đến khi thời gian tối thiểu trôi qua trong chế độ xem trước.
                 </p>
               </div>
             </CardContent>
@@ -134,7 +134,7 @@ export default function PropertiesPanel() {
                     <CardTitle className="text-base capitalize">{element.type}</CardTitle>
                     <CardDescription>ID: {element.id}</CardDescription>
                   </div>
-                  <Badge variant="secondary">Selected</Badge>
+                    <Badge variant="secondary">Đã chọn</Badge>
                 </div>
                 <div className="flex items-center justify-between gap-3">
                   <div className="text-xs text-slate-500">
@@ -145,26 +145,26 @@ export default function PropertiesPanel() {
                     size="sm"
                     onClick={() => deleteElement(element.id)}
                   >
-                    Delete
+                    Xóa
                   </Button>
                 </div>
               </CardHeader>
               <CardContent className="grid gap-3 text-xs text-slate-500">
                 <div className="flex items-center justify-between rounded-xl border border-slate-200 px-3 py-2">
-                  <span>Position</span>
+                  <span>Vị trí</span>
                   <span>
                     {Math.round(element.x)} x {Math.round(element.y)}
                   </span>
                 </div>
                 <div className="flex items-center justify-between rounded-xl border border-slate-200 px-3 py-2">
-                  <span>Size</span>
+                  <span>Kích thước</span>
                   <span>
                     {Math.round(element.width)} x {Math.round(element.height)}
                   </span>
                 </div>
                 <div className="rounded-xl border border-slate-200 px-3 py-2">
                   <div className="flex items-center justify-between">
-                    <span>Corner Radius</span>
+                    <span>Bán kính góc</span>
                     <span>{Math.round(element.borderRadius)}px</span>
                   </div>
                   <div className="mt-3">

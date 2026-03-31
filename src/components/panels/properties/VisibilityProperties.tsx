@@ -14,22 +14,22 @@ export function VisibilityProperties({ element, updateElement }: VisibilityPrope
   return (
     <div className="space-y-4 pt-4 mt-4 border-t border-slate-100">
       <div className="grid gap-2">
-        <Label className="text-sm font-semibold text-slate-700">Element Identity</Label>
+        <Label className="text-sm font-semibold text-slate-700">Định danh phần tử</Label>
         <Input
-          placeholder={`e.g. ${element.type} (Internal ID: ${element.id.slice(0, 5)})`}
+          placeholder={`ví dụ: ${element.type} (ID nội bộ: ${element.id.slice(0, 5)})`}
           value={element.name || ""}
           onChange={(e) => updateElement(element.id, { name: e.target.value })}
         />
         <p className="text-[11px] text-slate-500 leading-tight">
-          Helpful name for targeting this element via Triggers.
+          Tên gợi nhớ để nhắm tới phần tử này bằng các kích hoạt (Triggers).
         </p>
       </div>
 
       <div className="flex items-center justify-between pt-2 border-t border-slate-100">
         <div className="space-y-0.5">
-          <Label className="text-sm font-semibold text-slate-700">Hidden on Start</Label>
+          <Label className="text-sm font-semibold text-slate-700">Ẩn khi bắt đầu</Label>
           <p className="text-[11px] text-slate-500 leading-tight">
-            Element is invisible on load.
+            Phần tử không hiển thị khi tải.
           </p>
         </div>
         <Switch

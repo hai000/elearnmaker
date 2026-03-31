@@ -69,29 +69,29 @@ export default function Timeline() {
               <div className="flex items-center gap-2">
                 <Tabs defaultValue="animations" className="w-auto gap-0">
                   <TabsList>
-                    <TabsTrigger value="animations">Animations</TabsTrigger>
-                  </TabsList>
+                      <TabsTrigger value="animations">Hiệu ứng</TabsTrigger>
+                    </TabsList>
                   <TabsContent value="animations" className="hidden" />
                 </Tabs>
               </div>
               <Badge variant="secondary" className="text-xs font-normal">
-                Range. 0 - 60 seconds · Time lock
+                Phạm vi: 0 - 60 giây · Khóa thời gian
               </Badge>
             </div>
             <div className="flex items-center gap-2">
               <Button variant="outline" size="sm" onClick={addSlide}>
-                New slide
+                Slide mới
               </Button>
               <Button variant="outline" size="sm" onClick={() => duplicateSlide(currentSlideId)}>
-                Duplicate
+                Nhân bản
               </Button>
-              <Button
+                <Button
                 variant="destructive"
                 size="sm"
                 onClick={() => deleteSlide(currentSlideId)}
                 disabled={slides.length <= 1}
               >
-                Delete
+                Xóa
               </Button>
             </div>
           </div>
