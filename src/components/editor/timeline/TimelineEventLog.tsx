@@ -14,7 +14,7 @@ export function TimelineEventLog({ editorEvents }: EventLogPanelProps) {
     <div className="grid gap-2">
       <div className="flex items-center justify-between gap-3">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-          System events
+          Sự kiện hệ thống
         </p>
         <Badge variant="secondary" className="text-xs font-normal">
           {editorEvents.length}
@@ -35,14 +35,14 @@ export function TimelineEventLog({ editorEvents }: EventLogPanelProps) {
                 </div>
               </>
             ) : (
-              <span>No events yet</span>
+              <span>Chưa có sự kiện nào</span>
             )}
           </div>
         ))}
       </div>
       {latestEvent ? (
-        <div className="text-[11px] uppercase tracking-[0.18em] text-slate-400">
-          Latest: {latestEvent.type}
+          <div className="text-[11px] uppercase tracking-[0.18em] text-slate-400">
+          Mới nhất: {latestEvent.type}
         </div>
       ) : null}
     </div>

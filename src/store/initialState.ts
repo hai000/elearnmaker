@@ -123,7 +123,7 @@ export const initialElements: SlideElement[] = [
     animation: "slide-right",
     props: {
       title: "Tương tác & Hiệu ứng (Animations & Triggers)",
-      body: "Thử nhấn nút bên dưới để sử dụng 'Trigger Action' hiển thị một nội dung báo cáo đang bị ẩn (Hidden on Start).",
+      body: "Thử nhấn nút bên dưới để sử dụng 'Trigger Action' hiển thị một nội dung báo cáo đang bị ẩn (Ẩn khi bắt đầu).",
       titleSize: 20,
       bodySize: 14,
       textColor: "#064e3b",
