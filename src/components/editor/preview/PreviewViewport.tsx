@@ -42,11 +42,11 @@ export function PreviewViewport({
     <div className="flex-1 px-6 py-6">
       <div
         ref={viewportRef}
-        className="flex h-full w-full items-center justify-center rounded-[32px] border border-slate-200/70 bg-[radial-gradient(circle_at_top,_rgba(15,23,42,0.08),_transparent_65%)]"
+        className="flex h-full w-full items-center justify-center rounded-[32px] border border-slate-200/70 bg-[radial-gradient(circle_at_top,rgba(15,23,42,0.08),transparent_65%)]"
       >
         <div className="relative" style={{ width: frameWidth, height: frameHeight }}>
           {actionMessage && (
-            <div className="absolute left-1/2 top-4 z-[100] -translate-x-1/2 animate-in fade-in zoom-in-95 duration-200">
+            <div className="absolute left-1/2 top-4 z-100 -translate-x-1/2 animate-in fade-in zoom-in-95 duration-200">
                <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-white/95 px-6 py-2.5 text-sm font-semibold text-slate-800 shadow-2xl shadow-slate-900/20 backdrop-blur-md">
                  {actionMessage}
                </div>
@@ -74,7 +74,7 @@ export function PreviewViewport({
                   }} 
                 />
               )}
-              <div className="absolute inset-0 bg-[linear-gradient(160deg,_rgba(226,232,240,0.5),_transparent_45%)]" />
+              <div className="absolute inset-0 bg-[linear-gradient(160deg,rgba(226,232,240,0.5),transparent_45%)]" />
               <div
                 className="absolute left-1/2 top-1/2"
                 style={{

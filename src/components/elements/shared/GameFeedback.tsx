@@ -33,7 +33,7 @@ export function GameFeedback({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className={cn(
-            "absolute inset-0 z-[1000] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm pointer-events-auto",
+            "absolute inset-0 z-1000 flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm pointer-events-auto",
             className
           )}
         >
@@ -90,7 +90,7 @@ export function GameFeedback({
                   </Button>
                   <Button 
                     onClick={onRetry}
-                    className="flex-[2] h-14 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold text-lg shadow-lg shadow-red-100 active:scale-95 transition-all"
+                    className="flex-2 h-14 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold text-lg shadow-lg shadow-red-100 active:scale-95 transition-all"
                   >
                     THỬ LẠI
                   </Button>

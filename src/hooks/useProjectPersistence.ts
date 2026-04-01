@@ -3,6 +3,15 @@
 import { useEditorStore } from "@/store/editorStore";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
+import type { SlideElement, Slide, MediaAsset } from "@/store/types";
+
+type PendingProject = {
+  version: string;
+  timestamp: number;
+  slides: Slide[];
+  elements: SlideElement[];
+  assets?: MediaAsset[];
+};
 
 export function useProjectPersistence() {
   const slides = useEditorStore((state) => state.slides);
@@ -11,7 +20,7 @@ export function useProjectPersistence() {
   const importProject = useEditorStore((state) => state.importProject);
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  const [pendingData, setPendingData] = useState<any>(null);
+  const [pendingData, setPendingData] = useState<PendingProject | null>(null);
 
   const exportProject = useCallback(() => {
     try {
@@ -51,7 +60,7 @@ export function useProjectPersistence() {
         }
 
         // Instead of window.confirm, we open our custom dialog
-        setPendingData(data);
+        setPendingData(data as PendingProject);
         setIsConfirmOpen(true);
       } catch (err) {
         console.error("Import error:", err);

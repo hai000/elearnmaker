@@ -73,7 +73,7 @@ export function SlideTitle() {
         ) : (
           <span
             onClick={() => setIsEditing(true)}
-            className="text-sm font-medium text-slate-700 cursor-text hover:bg-slate-100/50 px-1.5 -ml-1.5 py-0.5 rounded-sm transition-colors truncate max-w-[300px]"
+            className="text-sm font-medium text-slate-700 cursor-text hover:bg-slate-100/50 px-1.5 -ml-1.5 py-0.5 rounded-sm transition-colors truncate max-w-75"
             title="Click to rename slide"
           >
             {slide.title}

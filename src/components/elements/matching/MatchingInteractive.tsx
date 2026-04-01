@@ -127,7 +127,7 @@ export function MatchingInteractive({ element, isDisabled, onAction }: MatchingI
               <div key={pair.id} className="flex items-center gap-2">
                 {/* Static Term - Compact */}
                 <div 
-                  className="flex-1 p-2 rounded-lg bg-white border border-slate-200 shadow-sm font-semibold text-slate-700 min-h-[44px] flex items-center justify-center text-center"
+                  className="flex-1 p-2 rounded-lg bg-white border border-slate-200 shadow-sm font-semibold text-slate-700 min-h-11 flex items-center justify-center text-center"
                   style={{ fontSize: itemSize - 2 }}
                 >
                   {pair.left}
@@ -137,7 +137,7 @@ export function MatchingInteractive({ element, isDisabled, onAction }: MatchingI
                 <div 
                   onClick={() => handleSlotClick(pair.id)}
                   className={cn(
-                    "flex-1 min-h-[44px] rounded-lg border-2 border-dashed transition-all cursor-pointer flex items-center justify-center overflow-hidden",
+                    "flex-1 min-h-11 rounded-lg border-2 border-dashed transition-all cursor-pointer flex items-center justify-center overflow-hidden",
                     slots[pair.id] 
                       ? "border-emerald-500 bg-emerald-50 border-solid p-0 shadow-sm" 
                       : (selectedPoolId ? "border-blue-400 bg-blue-50/50 p-1 animate-pulse" : "border-slate-200 bg-slate-100/50 p-1 hover:border-slate-300")
@@ -207,9 +207,9 @@ export function MatchingInteractive({ element, isDisabled, onAction }: MatchingI
               <RotateCcw className="w-4 h-4 mr-2" />
               Làm mới
             </Button>
-            <Button 
+              <Button 
               className={cn(
-                "flex-[2] h-12 font-bold text-lg transition-all",
+                "flex-2 h-12 font-bold text-lg transition-all",
                 Object.values(slots).every(v => v !== null) 
                   ? "bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-200" 
                   : "bg-slate-200 text-slate-400 cursor-not-allowed"

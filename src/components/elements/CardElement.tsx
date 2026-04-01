@@ -81,8 +81,12 @@ export default function CardElement({
           <div className="flex h-full flex-col">
             <input
               ref={titleRef}
-              className="w-full bg-transparent border-none outline-none font-[var(--font-display)] font-semibold mb-1"
-              style={{ color: cardElement.props.textColor, fontSize: cardElement.props.titleSize }}
+              className="w-full bg-transparent border-none outline-none font-semibold mb-1"
+              style={{
+                color: cardElement.props.textColor,
+                fontSize: cardElement.props.titleSize,
+                fontFamily: "var(--font-display)",
+              }}
               value={cardElement.props.title}
               onChange={(e) => {
                 updateElement(cardElement.id, {
@@ -107,8 +111,12 @@ export default function CardElement({
         ) : (
           <div className="flex h-full flex-col">
             <p
-              className="font-[var(--font-display)] font-semibold overflow-hidden text-ellipsis whitespace-nowrap"
-              style={{ color: cardElement.props.textColor, fontSize: cardElement.props.titleSize }}
+              className="font-semibold overflow-hidden text-ellipsis whitespace-nowrap"
+              style={{
+                color: cardElement.props.textColor,
+                fontSize: cardElement.props.titleSize,
+                fontFamily: "var(--font-display)",
+              }}
             >
               {cardElement.props.title}
             </p>

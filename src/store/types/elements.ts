@@ -19,6 +19,7 @@ export type ElementActionProps = {
   targetSlideId?: string;
   targetElementIds?: string[];
   requireCompletion?: boolean; // Lock button until games on slide are completed
+  triggerName?: string;
 };
 
 export type TextElement = ElementBase & {

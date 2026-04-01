@@ -88,7 +88,7 @@ export function EssayInteractive({ element, onAction }: EssayInteractiveProps) {
             onKeyDown={(e) => e.stopPropagation()}
             disabled={isSubmitted}
             className={cn(
-              "flex-1 min-h-0 rounded-xl border-slate-200 transition-all resize-none ![field-sizing:fixed] overflow-y-auto custom-scrollbar",
+              "flex-1 min-h-0 rounded-xl border-slate-200 transition-all resize-none field-sizing-fixed! overflow-y-auto custom-scrollbar",
               isSubmitted ? "bg-slate-50 border-emerald-200 text-slate-600 outline-none" : "focus:border-blue-400 focus:ring-4 focus:ring-blue-50 outline-none"
             )}
           />
