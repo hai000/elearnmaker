@@ -66,9 +66,9 @@ export default function TextProperties({ element, updateElement }: PropertiesPan
           />
         </div>
         
-        <Separator className="opacity-50" />
-        <VisibilityProperties element={element} updateElement={updateElement} />
       </PropertyCard>
+
+      <VisibilityProperties element={element} updateElement={updateElement} />
     </div>
   );
 }

@@ -20,6 +20,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import type { SortGameElement } from "@/store/types";
 import { SortableItem } from "@/components/elements/sort_game/SortableItem";
+import { useEditorStore } from "@/store/editorStore";
+import { GameFeedback } from "../shared/GameFeedback";
 
 // Random shuffle helper
 function shuffleArray<T>(array: T[]): T[] {
@@ -33,6 +35,7 @@ function shuffleArray<T>(array: T[]): T[] {
 
 type SortGameInteractiveProps = {
   element: SortGameElement;
+  onAction?: (element: any) => void;
 };
 
 interface SortItem {
@@ -41,7 +44,9 @@ interface SortItem {
   text: string;
 }
 
-export function SortGameInteractive({ element }: SortGameInteractiveProps) {
+export function SortGameInteractive({ element, onAction }: SortGameInteractiveProps) {
+  const setElementCompleted = useEditorStore((state) => state.setElementCompleted);
+  const setGameFeedback = useEditorStore((state) => state.setGameFeedback);
   const { items, title, titleSize, itemSize, textColor, checkLabel } = element.props;
 
   // We map the original items to objects with an id, where the id is their original correct index.
@@ -51,6 +56,7 @@ export function SortGameInteractive({ element }: SortGameInteractiveProps) {
 
   const [activeItems, setActiveItems] = useState<SortItem[]>(initialData);
   const [isChecked, setIsChecked] = useState(false);
+  const [isDismissed, setIsDismissed] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   // Auto-shuffle on mount (in preview mode)
@@ -88,9 +94,33 @@ export function SortGameInteractive({ element }: SortGameInteractiveProps) {
 
   const handleCheck = () => {
     setIsChecked(true);
+    setIsDismissed(false);
     // Determine correctness (are all items in their originalIndex order?)
     const correct = activeItems.every((item: SortItem, i: number) => item.originalIndex === i);
     setIsCorrect(correct);
+    if (correct) {
+      setElementCompleted(element.id, true);
+    }
+
+    setGameFeedback({
+      status: correct ? "success" : "error",
+      onDismiss: () => {
+        setIsDismissed(true);
+        if (correct && onAction) onAction(element);
+        if (!correct) {
+          setIsChecked(false);
+          setIsCorrect(null);
+        }
+      },
+      onRetry: () => {
+        setIsChecked(false);
+        setIsCorrect(null);
+      }
+    });
+  };
+
+  const handleDismiss = () => {
+    setIsDismissed(true);
   };
 
   return (
@@ -118,18 +148,7 @@ export function SortGameInteractive({ element }: SortGameInteractiveProps) {
 
       </div>
 
-      <div className="mt-4 flex items-center justify-between shrink-0 gap-3">
-        {isChecked ? (
-          <div
-            className={`flex-1 rounded-lg px-3 py-2 text-xs font-medium text-center ${
-              isCorrect ? "bg-emerald-50 text-emerald-700 border border-emerald-200" : "bg-red-50 text-red-700 border border-red-200"
-            }`}
-          >
-            {isCorrect ? "🎉 Chính xác!" : "❌ Sai rồi, thử lại nhé"}
-          </div>
-        ) : (
-          <div className="flex-1" />
-        )}
+      <div className="mt-4 flex flex-col items-center justify-between shrink-0 gap-3">
         <Button onClick={handleCheck} disabled={isChecked && isCorrect!}>
           {checkLabel || "Kiểm tra đáp án"}
         </Button>

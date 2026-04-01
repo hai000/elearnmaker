@@ -15,9 +15,10 @@ Mỗi element trong editor đều có các field nền tảng:
 - `rotation`: góc xoay.
 - `borderRadius`: bo góc.
 - `zIndex`: thứ tự hiển thị (lớp).
-- `hidden`: cờ đánh dấu phần tử ẩn khi slide bắt đầu.
-- `name`: tên gợi nhớ để định danh khi dùng Trigger (vd: "Nút Gợi ý").
-- `animation`: hiệu ứng xuất hiện (fade, zoom, slide, bounce...).
+- `hidden`: Cờ đánh dấu phần tử ẩn khi slide bắt đầu.
+- `animation`: Hiệu ứng xuất hiện (fade, zoom, slide, bounce...).
+- `actionType` (Mới): Hành động thực hiện khi phần tử hoàn thành (show_element, hide_element, none).
+- `targetElementIds` (Mới): Danh sách ID các phần tử sẽ được kích hoạt.
 - `props`: dữ liệu riêng theo từng element.
 
 Nguyên tắc quan trọng:
@@ -139,6 +140,7 @@ Hành vi:
 
 - Render trình phát nhạc tối giản hoặc ẩn (nếu không có controls).
 - Dùng cho các bài tập nghe hiểu hoặc nhạc nền slide.
+- **Trigger**: Có thể cấu hình để kích hoạt (hiển thị) các phần tử khác ngay khi nhạc kết thúc.
 
 ## 9. Element Essay (Tự luận)
 
@@ -221,9 +223,23 @@ Hành vi:
 - Điều hướng slide hoặc kích hoạt logic hiển thị element động ngay trong trang.
 
 ---
-
 ## 13. Ghi chú về Editor & Preview
 
 - **Editor**: Sử dụng hệ thống `PropertyCard` thống nhất để chỉnh sửa thuộc tính cho tất cả các loại element.
 - **Preview/Viewer**: Áp dụng công nghệ **Scale Wrapper** để đảm bảo tỷ lệ 16:9 luôn hiển thị trọn vẹn và căn giữa trên mọi thiết bị (iPhone, iPad, Desktop).
 - **Responsive**: Sử dụng đơn vị `dvh` (Dynamic Viewport Height) để xử lý thanh địa chỉ trình duyệt trên mobile.
+## 14. Hệ thống Kích hoạt (Trigger System)
+
+Studio đã thống nhất hệ thống kích hoạt cho mọi loại thành phần:
+- **Game & Quiz**: Hoàn thành đúng $\rightarrow$ `show_element` (Hiện nút Tiếp tục).
+- **Audio**: Chạy xong $\rightarrow$ `show_element` (Hiện bộ câu hỏi).
+- **Essay**: Nộp bài $\rightarrow$ `show_element` (Mở khóa slide kế).
+
+## 15. Cơ chế Trạng thái & Duy trì (Persistence)
+
+Thay vì gỡ bỏ phần tử khỏi DOM khi ẩn (unmount), Studio sử dụng CSS `display: none`:
+- **Persistence**: Giữ cho tài nguyên nền (như Audio/Video) không bị reset hay giải phóng khi người hướng dẫn ẩn giao diện điều khiển.
+- **Overrides**: Trạng thái hiển thị lúc chạy (Runtime) được lưu trong `uiSlice.elementVisibilityOverrides`, cho phép thay đổi giao diện linh hoạt mà vẫn bảo toàn trạng thái component.
+
+---
+*Cập nhật lần cuối: 01/04/2026 (Interactive Elements & Trigger System)*

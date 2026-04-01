@@ -10,6 +10,7 @@ export default function MatchingElement({
   isSelected,
   onSelect,
   interactive,
+  onAction,
   elementRef,
 }: CanvasElementProps) {
   if (element.type !== "matching") {
@@ -32,6 +33,7 @@ export default function MatchingElement({
         <MatchingInteractive 
           element={matchingElement} 
           isDisabled={interactive} 
+          onAction={onAction}
         />
         
         {interactive && (

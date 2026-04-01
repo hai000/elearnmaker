@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import type { PropertiesPanelProps } from "@/plugins/registry";
 import { VisibilityProperties } from "./properties/VisibilityProperties";
+import { ActionProperties } from "./properties/ActionProperties";
 import { PropertyCard } from "./properties/PropertyCard";
 import type { GuessWordElement } from "@/store/types";
 import { Plus, Trash2, Gamepad2, ImageIcon, Palette } from "lucide-react";
@@ -138,9 +139,15 @@ export default function GuessWordProperties({ element, updateElement }: Properti
           />
         </div>
 
-        <Separator className="opacity-50" />
-        <VisibilityProperties element={element} updateElement={updateElement} />
       </PropertyCard>
+
+      <VisibilityProperties element={element} updateElement={updateElement} />
+
+      <ActionProperties 
+        element={element} 
+        updateElement={updateElement} 
+        title="Hành động khi giải đúng" 
+      />
     </div>
   );
 }

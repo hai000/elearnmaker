@@ -1,190 +1,88 @@
 import type { PropertiesPanelProps } from "@/plugins/registry";
 import { ColorPickerField } from "@/components/ui/color-picker";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PropertyCard } from "./properties/PropertyCard";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useEditorStore } from "@/store/editorStore";
 import { VisibilityProperties } from "./properties/VisibilityProperties";
+import { ActionProperties } from "./properties/ActionProperties";
+import { MousePointer2, Eye } from "lucide-react";
 
 const textColorSwatches = ["#FFFFFF", "#0F172A", "#2563EB", "#0F766E", "#DC2626"];
 const surfaceSwatches = ["#2563EB", "#0F172A", "#F59E0B", "#10B981", "#7C3AED"];
 
-const actionOptions = [
-  { value: "none", label: "Không" },
-  { value: "go_to_slide", label: "Chuyển tới slide" },
-  { value: "show_element", label: "Hiển thị phần tử" },
-  { value: "hide_element", label: "Ẩn phần tử" },
-  { value: "toggle_element", label: "Chuyển đổi phần tử" },
-] as const;
-
 export default function ButtonProperties({ element, updateElement }: PropertiesPanelProps) {
-  const slides = useEditorStore((state) => state.slides);
-  const elements = useEditorStore((state) => state.elements);
-
   if (element.type !== "button") {
     return null;
   }
 
   return (
-    <div className="space-y-4">
-      <Card>
-        <CardHeader>
-            <CardTitle className="text-base">Nút</CardTitle>
-          </CardHeader>
-      <CardContent className="grid gap-4">
-        <div className="grid gap-2">
-          <Label htmlFor="button-label">Nhãn</Label>
-          <Input
-            id="button-label"
-            value={element.props.label}
-            onChange={(event) =>
-              updateElement(element.id, {
-                props: { ...element.props, label: event.target.value },
-              })
-            }
-          />
-        </div>
-
-        <div className="grid gap-2">
-          <Label htmlFor="button-size">Kích thước chữ</Label>
-          <Input
-            id="button-size"
-            type="number"
-            min={10}
-            max={36}
-            value={element.props.buttonSize}
-            onChange={(event) =>
-              updateElement(element.id, {
-                props: { ...element.props, buttonSize: Number(event.target.value) || 0 },
-              })
-            }
-          />
-        </div>
-
-        <div className="grid gap-3">
-          <ColorPickerField
-            label="Màu chữ"
-            value={element.props.textColor}
-            swatches={textColorSwatches}
-            description="Màu chữ trên button"
-            onChange={(nextColor) =>
-              updateElement(element.id, {
-                props: { ...element.props, textColor: nextColor },
-              })
-            }
-          />
-          <ColorPickerField
-            label="Nền"
-            value={element.props.backgroundColor}
-            swatches={surfaceSwatches}
-            description="Màu nền của button"
-            onChange={(nextColor) =>
-              updateElement(element.id, {
-                props: { ...element.props, backgroundColor: nextColor },
-              })
-            }
-          />
-        </div>
-        <VisibilityProperties element={element} updateElement={updateElement} />
-      </CardContent>
-    </Card>
-
-    <Card>
-        <CardHeader>
-        <CardTitle className="text-base text-slate-800">Cài đặt hành động</CardTitle>
-      </CardHeader>
-      <CardContent className="grid gap-4">
-
-        <div className="grid gap-2">
-          <Label className="text-xs font-medium text-slate-500 uppercase">Hành động khi nhấn</Label>
-          <Select
-            value={element.props.actionType || "none"}
-            onValueChange={(val) =>
-              updateElement(element.id, {
-                props: { ...element.props, actionType: val },
-              })
-            }
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Chọn hành động" />
-            </SelectTrigger>
-            <SelectContent>
-              {actionOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {element.props.actionType === "go_to_slide" ? (
+    <div className="space-y-4 pb-6">
+      <PropertyCard 
+        title="Thiết lập Nút" 
+        icon={<MousePointer2 className="w-4 h-4 text-blue-500" />}
+      >
+        <div className="grid gap-4">
           <div className="grid gap-2">
-            <Label>Slide đích</Label>
-            <Select
-              value={element.props.targetSlideId || ""}
-              onValueChange={(val: string) =>
+            <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Nhãn (Label)</Label>
+            <Input
+              value={element.props.label}
+              onChange={(event) =>
                 updateElement(element.id, {
-                  props: { ...element.props, targetSlideId: val },
+                  props: { ...element.props, label: event.target.value },
                 })
               }
-            >
-                <SelectTrigger>
-                <SelectValue placeholder="Chọn slide" />
-              </SelectTrigger>
-              <SelectContent>
-                {slides.map((slide) => (
-                  <SelectItem key={slide.id} value={slide.id}>
-                    {slide.title}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+              className="bg-white border-slate-200 h-9 text-xs font-medium"
+            />
           </div>
-        ) : null}
 
-        {["show_element", "hide_element", "toggle_element"].includes(element.props.actionType) ? (
           <div className="grid gap-2">
-            <Label htmlFor="button-target-elements">Phần tử đích</Label>
-            <div className="grid gap-2 border bg-slate-50 border-slate-200 p-3 rounded-md max-h-40 overflow-y-auto">
-              {elements.filter(e => e.id !== element.id && e.slideId === element.slideId).length === 0 ? (
-                <p className="text-xs text-slate-500">Không có phần tử khác trên slide này.</p>
-              ) : (
-                elements
-                  .filter(e => e.id !== element.id && e.slideId === element.slideId)
-                  .map((tgt) => {
-                    const isSelected = element.props.targetElementIds?.includes(tgt.id);
-                    const tgtLabel = tgt.name || `${tgt.type.toUpperCase()} (${tgt.id.slice(0, 5)})`;
-                    return (
-                      <label key={tgt.id} className="flex flex-row items-center space-x-3 text-sm font-medium cursor-pointer">
-                        <input
-                          type="checkbox"
-                          className="rounded border-slate-300 w-4 h-4 text-slate-900 focus:ring-slate-900"
-                          checked={isSelected || false}
-                          onChange={(e) => {
-                            let nextIds = [...(element.props.targetElementIds || [])];
-                            if (e.target.checked) {
-                              nextIds.push(tgt.id);
-                            } else {
-                              nextIds = nextIds.filter(id => id !== tgt.id);
-                            }
-                            updateElement(element.id, {
-                              props: { ...element.props, targetElementIds: nextIds }
-                            });
-                          }}
-                        />
-                        <span className="text-slate-700">{tgtLabel}</span>
-                      </label>
-                    );
-                  })
-              )}
-            </div>
+            <Label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Kích thước chữ</Label>
+            <Input
+              type="number"
+              min={10}
+              max={36}
+              value={element.props.buttonSize}
+              onChange={(event) =>
+                updateElement(element.id, {
+                  props: { ...element.props, buttonSize: Number(event.target.value) || 0 },
+                })
+              }
+              className="bg-slate-50 h-8 text-xs w-24"
+            />
           </div>
-        ) : null}
 
-      </CardContent>
-    </Card>
-  </div>
+          <div className="grid gap-4 pt-1">
+            <ColorPickerField
+              label="Màu chữ"
+              value={element.props.textColor}
+              swatches={textColorSwatches}
+              onChange={(nextColor) =>
+                updateElement(element.id, {
+                  props: { ...element.props, textColor: nextColor },
+                })
+              }
+            />
+            <ColorPickerField
+              label="Màu nền"
+              value={element.props.backgroundColor}
+              swatches={surfaceSwatches}
+              onChange={(nextColor) =>
+                updateElement(element.id, {
+                  props: { ...element.props, backgroundColor: nextColor },
+                })
+              }
+            />
+          </div>
+        </div>
+      </PropertyCard>
+
+      <VisibilityProperties element={element} updateElement={updateElement} />
+
+      <ActionProperties 
+        element={element}
+        updateElement={updateElement}
+        title="Hành động khi nhấn"
+      />
+    </div>
   );
 }

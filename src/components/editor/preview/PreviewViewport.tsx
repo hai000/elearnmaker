@@ -3,6 +3,7 @@ import ElementRenderer from "@/components/elements/ElementRenderer";
 import type { DeviceOption } from "@/constants/previewDevices";
 import { baseSlide } from "@/constants/previewDevices";
 import type { SlideElement } from "@/store/editorStore";
+import { GlobalGameFeedback } from "@/components/elements/shared/GlobalGameFeedback";
 
 type PreviewViewportProps = {
   viewportRef: RefObject<HTMLDivElement | null>;
@@ -84,23 +85,29 @@ export function PreviewViewport({
                   transformOrigin: "center center",
                 }}
               >
+                <GlobalGameFeedback />
                 {elements.map((element) => {
                   let isVisible = !element.hidden;
                   if (elementVisibilityOverrides[element.id] !== undefined) {
                     isVisible = elementVisibilityOverrides[element.id];
                   }
 
-                  if (!isVisible) return null;
-
                   return (
-                    <ElementRenderer
+                    <div 
                       key={element.id}
-                      element={element}
-                      isSelected={false}
-                      onSelect={() => {}}
-                      interactive={false}
-                      onAction={handleElementAction}
-                    />
+                      style={{ 
+                        display: isVisible ? "block" : "none",
+                        pointerEvents: isVisible ? "auto" : "none" 
+                      }}
+                    >
+                      <ElementRenderer
+                        element={element}
+                        isSelected={false}
+                        onSelect={() => {}}
+                        interactive={false}
+                        onAction={handleElementAction}
+                      />
+                    </div>
                   );
                 })}
               </div>

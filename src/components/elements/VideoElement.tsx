@@ -1,14 +1,17 @@
 import ElementShell from "./ElementShell";
 import type { CanvasElementProps } from "@/plugins/registry";
 import { Badge } from "@/components/ui/badge";
+import { useEditorStore } from "@/store/editorStore";
 
 export default function VideoElement({
   element,
   isSelected,
   onSelect,
   interactive,
+  onAction,
   elementRef,
 }: CanvasElementProps) {
+  const setElementCompleted = useEditorStore((state) => state.setElementCompleted);
   if (element.type !== "video") {
     return null;
   }
@@ -28,6 +31,10 @@ export default function VideoElement({
           src={element.props.videoUrl}
           className="h-full w-full object-cover"
           controls
+          onEnded={() => {
+            setElementCompleted(element.id, true);
+            onAction?.(element);
+          }}
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center bg-muted/40">

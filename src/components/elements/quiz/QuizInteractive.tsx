@@ -1,30 +1,60 @@
-"use client";
-
 import { useState } from "react";
-import type { QuizElement as QuizElementType } from "@/store/types";
+import type { QuizElement as QuizElementType, SlideElement } from "@/store/types";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
+import { useEditorStore } from "@/store/editorStore";
+import { GameFeedback } from "../shared/GameFeedback";
 
 type QuizInteractiveProps = {
   element: QuizElementType;
+  onAction?: (element: SlideElement) => void;
 };
 
-type QuizStatus = "idle" | "correct" | "wrong";
+type QuizStatus = "idle" | "correct" | "wrong" | "dismissed";
 
-export function QuizInteractive({ element }: QuizInteractiveProps) {
+export function QuizInteractive({ element, onAction }: QuizInteractiveProps) {
+  const setElementCompleted = useEditorStore((state) => state.setElementCompleted);
+  const setGameFeedback = useEditorStore((state) => state.setGameFeedback);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [status, setStatus] = useState<QuizStatus>("idle");
 
   const handleSelect = (index: number) => {
-    if (status !== "idle") return;
+    if (status !== "idle" && status !== "dismissed") return;
     setSelectedIndex(index);
-    setStatus(index === element.props.correctIndex ? "correct" : "wrong");
+    const isCorrect = index === element.props.correctIndex;
+    setStatus(isCorrect ? "correct" : "wrong");
+    
+    if (isCorrect) {
+      setElementCompleted(element.id, true);
+    }
+
+    setGameFeedback({
+      status: isCorrect ? "success" : "error",
+      title: isCorrect ? "Chính xác!" : "Chưa đúng rồi!",
+      message: isCorrect 
+        ? "Chúc mừng bạn đã trả lời đúng câu hỏi này." 
+        : "Câu trả lời của bạn chưa chính xác, hãy thử lại nhé!",
+      onDismiss: isCorrect ? () => {
+        setStatus("dismissed");
+        if (onAction) onAction(element);
+      } : () => {
+        setSelectedIndex(null);
+        setStatus("idle");
+      },
+      onRetry: () => {
+        setSelectedIndex(null);
+        setStatus("idle");
+      }
+    });
   };
 
   const handleReset = () => {
     setSelectedIndex(null);
     setStatus("idle");
+  };
+
+  const handleDismiss = () => {
+    setStatus("dismissed");
   };
 
   const getVariant = (index: number) => {
@@ -53,7 +83,7 @@ export function QuizInteractive({ element }: QuizInteractiveProps) {
   };
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto p-4">
+    <div className="relative flex h-full flex-col overflow-y-auto p-4">
       <p
         className="font-semibold"
         style={{ color: element.props.textColor, fontSize: element.props.titleSize }}
@@ -82,19 +112,6 @@ export function QuizInteractive({ element }: QuizInteractiveProps) {
         ))}
       </div>
 
-      {status !== "idle" && (
-        <div className="mt-3 flex items-center justify-between gap-2">
-          <span
-            className={`text-xs font-semibold ${status === "correct" ? "text-emerald-600" : "text-red-500"
-              }`}
-          >
-            {status === "correct" ? "🎉 Chính xác!" : "❌ Sai rồi!"}
-          </span>
-          <Button variant="outline" size="sm" onClick={handleReset}>
-            {element.props.retryLabel || "Thử lại"}
-          </Button>
-        </div>
-      )}
     </div>
   );
 }

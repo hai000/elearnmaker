@@ -9,6 +9,7 @@ export default function EssayElement({
   isSelected,
   onSelect,
   interactive,
+  onAction,
   elementRef,
 }: CanvasElementProps) {
   if (element.type !== "essay") {
@@ -27,7 +28,7 @@ export default function EssayElement({
       ref={elementRef}
     >
       <div className={cn("h-full w-full", interactive && "pointer-events-none")}>
-        <EssayInteractive element={essayElement} />
+        <EssayInteractive element={essayElement} onAction={onAction} />
       </div>
     </ElementShell>
   );

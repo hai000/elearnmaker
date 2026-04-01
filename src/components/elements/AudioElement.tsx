@@ -1,14 +1,17 @@
 import ElementShell from "./ElementShell";
 import type { CanvasElementProps } from "@/plugins/registry";
 import { AudioPlayer } from "@/components/ui/audio-player";
+import { useEditorStore } from "@/store/editorStore";
 
 export default function AudioElement({
   element,
   isSelected,
   onSelect,
   interactive,
+  onAction,
   elementRef,
 }: CanvasElementProps) {
+  const setElementCompleted = useEditorStore((state) => state.setElementCompleted);
   if (element.type !== "audio") {
     return null;
   }
@@ -32,6 +35,17 @@ export default function AudioElement({
         volume={volume as number}
         label={audioUrl ? "Audio Clip" : "Chưa có nguồn âm thanh"}
         className="h-full w-full"
+        onEnded={() => {
+          // Ensure we use the latest element state from the store for triggers
+          const latestElement = useEditorStore.getState().elements.find(e => e.id === element.id);
+          setElementCompleted(element.id, true);
+          
+          if (onAction && latestElement) {
+            onAction(latestElement);
+          } else if (onAction) {
+            onAction(element);
+          }
+        }}
       />
     </ElementShell>
   );

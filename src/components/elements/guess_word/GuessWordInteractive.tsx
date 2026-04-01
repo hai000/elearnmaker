@@ -1,24 +1,30 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import { GuessWordElement } from "@/store/types";
+import { GuessWordElement, SlideElement } from "@/store/types";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Delete, RotateCcw, CheckCircle2, HelpCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useEditorStore } from "@/store/editorStore";
+import { GameFeedback } from "../shared/GameFeedback";
 
 interface GuessWordInteractiveProps {
   element: GuessWordElement;
   isDisabled?: boolean;
+  onAction?: (element: SlideElement) => void;
 }
 
-export function GuessWordInteractive({ element, isDisabled }: GuessWordInteractiveProps) {
+export function GuessWordInteractive({ element, isDisabled, onAction }: GuessWordInteractiveProps) {
+  const setElementCompleted = useEditorStore((state) => state.setElementCompleted);
+  const setGameFeedback = useEditorStore((state) => state.setGameFeedback);
   const { answer, imageUrls, hint, successMessage, textColor, title } = element.props;
   
   // Normalize answer (uppercase, no spaces for simplicity in comparison)
   const normalizedAnswer = useMemo(() => answer.toUpperCase().replace(/\s/g, ""), [answer]);
   const [userGuess, setUserGuess] = useState<string[]>(new Array(normalizedAnswer.length).fill(""));
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isDismissed, setIsDismissed] = useState(false);
   const [isError, setIsError] = useState(false);
   const [showHint, setShowHint] = useState(false);
 
@@ -45,8 +51,24 @@ export function GuessWordInteractive({ element, isDisabled }: GuessWordInteracti
     if (userGuess.join("") === normalizedAnswer) {
       setIsSuccess(true);
       setIsError(false);
+      setElementCompleted(element.id, true);
+      setGameFeedback({
+        status: "success",
+        message: successMessage || "Chúc mừng bạn đã trả lời đúng!",
+        onDismiss: () => {
+          setIsDismissed(true);
+          if (onAction) onAction(element);
+        },
+        onRetry: handleReset
+      });
     } else {
       setIsError(true);
+      setGameFeedback({
+        status: "error",
+        message: "Rất tiếc, câu trả lời chưa chính xác!",
+        onDismiss: () => setIsError(false),
+        onRetry: handleReset
+      });
       // Reset error after animation
       setTimeout(() => setIsError(false), 1000);
     }
@@ -80,10 +102,15 @@ export function GuessWordInteractive({ element, isDisabled }: GuessWordInteracti
     if (isDisabled) return;
     setUserGuess(new Array(normalizedAnswer.length).fill(""));
     setIsSuccess(false);
+    setIsDismissed(false);
+  };
+
+  const handleDismiss = () => {
+    setIsDismissed(true);
   };
 
   return (
-    <div className="flex flex-col h-full items-center p-4 gap-4 overflow-y-auto">
+    <div className="relative flex flex-col h-full items-center p-4 gap-4 overflow-y-auto">
       <div className="text-center w-full">
         <h3 className="font-bold text-lg mb-1" style={{ color: textColor }}>{title || "Đuổi Hình Bắt Chữ"}</h3>
         {hint && (
@@ -125,26 +152,6 @@ export function GuessWordInteractive({ element, isDisabled }: GuessWordInteracti
           </div>
         )}
         
-        <AnimatePresence>
-          {isSuccess && (
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="absolute inset-0 bg-green-500/90 text-white flex flex-col items-center justify-center p-6 text-center z-10"
-            >
-              <CheckCircle2 className="w-16 h-16 mb-4" />
-              <h2 className="text-2xl font-bold mb-2">CHÍNH XÁC!</h2>
-              <p className="text-sm opacity-90">{successMessage || "Chúc mừng bạn đã trả lời đúng!"}</p>
-              <Button 
-                variant="secondary" 
-                className="mt-6 font-bold" 
-                onClick={handleReset}
-              >
-                Chơi lại
-              </Button>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
 
       {/* Answer Slots */}
@@ -169,15 +176,6 @@ export function GuessWordInteractive({ element, isDisabled }: GuessWordInteracti
         ))}
       </div>
 
-      {isError && (
-        <motion.p 
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-red-500 text-xs font-bold"
-        >
-          Rất tiếc, câu trả lời chưa chính xác!
-        </motion.p>
-      )}
 
       {/* Letter Grid */}
       <div className="w-full flex flex-col gap-2 mt-auto">

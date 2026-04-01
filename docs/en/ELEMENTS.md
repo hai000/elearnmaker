@@ -15,9 +15,10 @@ Every editor element includes these base fields:
 - `rotation`: rotation angle.
 - `borderRadius`: corner radius.
 - `zIndex`: stacking order.
-- `hidden`: boolean flag to hide element on slide load.
-- `name`: friendly alias for triggering (e.g., "Hint Button").
-- `animation`: entrance effect (fade, zoom, slide, etc.).
+- `hidden`: Boolean flag to hide element on slide load.
+- `animation`: Entrance effect (fade, zoom, slide, bounce...).
+- `actionType` (New): Action to perform when the element is "completed" (show_element, hide_element, none).
+- `targetElementIds` (New): Array of IDs to be triggered by the action.
 - `props`: element-specific data.
 
 Important rules:
@@ -139,6 +140,7 @@ Behavior:
 
 - Renders a minimalist or hidden player (if controls are off).
 - Used for listening comprehension exercises or slide background music.
+- **Trigger**: Can be configured to reveal other elements automatically when playback ends.
 
 ## 9. Essay Element (Long Answer)
 
@@ -219,7 +221,6 @@ Props:
 Behavior:
 
 - Handles navigation or triggers dynamic visibility within the slide.
-
 ---
 
 ## 13. Editor & Preview Notes
@@ -227,3 +228,18 @@ Behavior:
 - **Editor**: Uses a standardized **PropertyCard** architecture to group related settings (Content, Appearance, Logic).
 - **Preview/Viewer**: Implements a **Scale Wrapper** technique to ensure the 16:9 canvas is perfectly centered and scaled on any screen (Mobile, Tablet, Desktop).
 - **Responsive**: Leverages `dvh` (Dynamic Viewport Height) to handle mobile browser address bar fluctuations.
+## 14. Trigger System
+
+The Studio has a unified trigger system for all interactive components:
+- **Games & Quizzes**: Correct answer $\rightarrow$ `show_element` (Reveal Next button).
+- **Audio**: Playback ended $\rightarrow$ `show_element` (Reveal dependent Quiz).
+- **Essay**: Submission $\rightarrow$ `show_element` (Unlock next slide).
+
+## 15. Runtime Visibility & Persistence
+
+Instead of unmounting elements when hidden, the Studio uses CSS `display: none`:
+- **Persistence**: Ensures background processes (like Audio/Video) are not reset or released from memory when the control interface is hidden.
+- **Overrides**: Runtime visibility is managed via `uiSlice.elementVisibilityOverrides`, allowing for dynamic layouts while preserving component state.
+
+---
+*Last updated: April 1, 2026 (Interactive Elements & Trigger System)*

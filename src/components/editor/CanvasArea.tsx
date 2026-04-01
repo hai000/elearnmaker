@@ -1,6 +1,7 @@
 "use client";
 
 import ElementRenderer from "@/components/elements/ElementRenderer";
+import { GlobalGameFeedback } from "@/components/elements/shared/GlobalGameFeedback";
 import { useEditorStore } from "@/store/editorStore";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SelectionTransformControls } from "./canvas/SelectionTransformControls";
@@ -221,6 +222,7 @@ export default function CanvasArea() {
               }
             }}
           >
+            <GlobalGameFeedback />
           {currentSlideElements.map((element) => {
             const isSelected = element.id === selectedId;
             return (

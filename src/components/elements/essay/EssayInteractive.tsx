@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { EssayElement } from "@/store/types";
+import { EssayElement, SlideElement } from "@/store/types";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useEditorStore } from "@/store/editorStore";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { CheckCircle2, AlertCircle } from "lucide-react";
@@ -11,9 +12,11 @@ import { motion, AnimatePresence } from "framer-motion";
 
 interface EssayInteractiveProps {
   element: EssayElement;
+  onAction?: (element: SlideElement) => void;
 }
 
-export function EssayInteractive({ element }: EssayInteractiveProps) {
+export function EssayInteractive({ element, onAction }: EssayInteractiveProps) {
+  const setElementCompleted = useEditorStore((state) => state.setElementCompleted);
   const { title, placeholder, minLength, maxLength, submitLabel, titleSize, textColor, backgroundColor } = element.props;
   
   const [value, setValue] = useState("");
@@ -34,7 +37,10 @@ export function EssayInteractive({ element }: EssayInteractiveProps) {
     }
 
     setError(null);
-    setIsSubmitted(true);
+    setElementCompleted(element.id, true);
+    if (onAction) {
+      onAction(element);
+    }
   };
 
   const handleReset = () => {
@@ -45,11 +51,11 @@ export function EssayInteractive({ element }: EssayInteractiveProps) {
 
   return (
     <div 
-      className="flex flex-col h-full p-6 rounded-2xl shadow-sm border border-slate-200/50 overflow-y-auto custom-scrollbar"
+      className="flex flex-col h-full p-6 rounded-2xl shadow-sm border border-slate-200/50 overflow-hidden"
       style={{ backgroundColor: backgroundColor || "#ffffff" }}
       onPointerDown={(e) => e.stopPropagation()}
     >
-      <div className="flex-1 flex flex-col min-h-min">
+      <div className="flex-1 flex flex-col min-h-0">
         <h3 
           className="font-bold mb-4" 
           style={{ color: textColor || "#0f172a", fontSize: titleSize || 20 }}
@@ -82,8 +88,8 @@ export function EssayInteractive({ element }: EssayInteractiveProps) {
             onKeyDown={(e) => e.stopPropagation()}
             disabled={isSubmitted}
             className={cn(
-              "flex-1 min-h-[120px] rounded-xl border-slate-200 transition-all resize-none",
-              isSubmitted ? "bg-slate-50 border-emerald-200 text-slate-600" : "focus:border-blue-400 focus:ring-4 focus:ring-blue-50"
+              "flex-1 min-h-0 rounded-xl border-slate-200 transition-all resize-none ![field-sizing:fixed] overflow-y-auto custom-scrollbar",
+              isSubmitted ? "bg-slate-50 border-emerald-200 text-slate-600 outline-none" : "focus:border-blue-400 focus:ring-4 focus:ring-blue-50 outline-none"
             )}
           />
 

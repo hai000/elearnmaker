@@ -9,6 +9,7 @@ export default function SortGameElement({
   isSelected,
   onSelect,
   interactive,
+  onAction,
   elementRef,
 }: CanvasElementProps) {
   if (element.type !== "sort_game") {
@@ -28,7 +29,7 @@ export default function SortGameElement({
       ref={elementRef}
     >
       {interactive === false ? (
-        <SortGameInteractive element={sortGameElement} />
+        <SortGameInteractive element={sortGameElement} onAction={onAction} />
       ) : (
         <div className="flex h-full flex-col overflow-y-auto p-4">
           <p

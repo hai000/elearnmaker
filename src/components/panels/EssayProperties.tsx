@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import type { PropertiesPanelProps } from "@/plugins/registry";
 import { VisibilityProperties } from "./properties/VisibilityProperties";
+import { ActionProperties } from "./properties/ActionProperties";
 import { PropertyCard } from "./properties/PropertyCard";
 import { ColorPickerField } from "@/components/ui/color-picker";
 import type { EssayElement } from "@/store/types";
@@ -113,9 +114,15 @@ export default function EssayProperties({ element, updateElement }: PropertiesPa
           />
         </div>
 
-        <Separator className="opacity-50" />
-        <VisibilityProperties element={element} updateElement={updateElement} />
       </PropertyCard>
+
+      <VisibilityProperties element={element} updateElement={updateElement} />
+
+      <ActionProperties 
+        element={element} 
+        updateElement={updateElement} 
+        title="Hành động khi nộp bài" 
+      />
     </div>
   );
 }

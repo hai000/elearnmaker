@@ -14,6 +14,13 @@ export type ElementBase = {
   animation?: string; // Entrance animation for the element
 };
 
+export type ElementActionProps = {
+  actionType?: "none" | "go_to_slide" | "show_element" | "hide_element" | "toggle_element";
+  targetSlideId?: string;
+  targetElementIds?: string[];
+  requireCompletion?: boolean; // Lock button until games on slide are completed
+};
+
 export type TextElement = ElementBase & {
   type: "text";
   props: {
@@ -47,7 +54,7 @@ export type QuizElement = ElementBase & {
     optionSize: number;
     textColor: string;
     backgroundColor: string;
-  };
+  } & ElementActionProps;
 };
 
 export type ImageElement = ElementBase & {
@@ -61,7 +68,7 @@ export type VideoElement = ElementBase & {
   type: "video";
   props: {
     videoUrl: string;
-  };
+  } & ElementActionProps;
 };
 
 export type ButtonElement = ElementBase & {
@@ -70,12 +77,8 @@ export type ButtonElement = ElementBase & {
     label: string;
     textColor: string;
     backgroundColor: string;
-    actionType: "none" | "go_to_slide" | "trigger" | "show_element" | "hide_element" | "toggle_element";
-    targetSlideId: string;
-    targetElementIds?: string[];
-    triggerName?: string;
     buttonSize: number;
-  };
+  } & ElementActionProps;
 };
 
 export type WheelPluginElement = ElementBase & {
@@ -97,7 +100,7 @@ export type AudioElement = ElementBase & {
     loop: boolean;
     controls: boolean;
     volume: number;
-  };
+  } & ElementActionProps;
 };
 
 export type SortGameElement = ElementBase & {
@@ -110,7 +113,7 @@ export type SortGameElement = ElementBase & {
     textColor: string;
     backgroundColor: string;
     checkLabel: string;
-  };
+  } & ElementActionProps;
 };
 
 export type ShapeElement = ElementBase & {
@@ -134,7 +137,7 @@ export type GuessWordElement = ElementBase & {
     titleSize: number;
     textColor: string;
     backgroundColor: string;
-  };
+  } & ElementActionProps;
 };
 
 export type MatchingPair = {
@@ -152,7 +155,7 @@ export type MatchingElement = ElementBase & {
     itemSize: number;
     textColor: string;
     backgroundColor: string;
-  };
+  } & ElementActionProps;
 };
 
 export type EssayElement = ElementBase & {
@@ -166,7 +169,7 @@ export type EssayElement = ElementBase & {
     titleSize: number;
     textColor: string;
     backgroundColor: string;
-  };
+  } & ElementActionProps;
 };
 
 export type SlideElement =

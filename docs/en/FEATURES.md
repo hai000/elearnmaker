@@ -16,7 +16,8 @@ Easily add basic geometric shapes to your slide from the left toolbar:
 
 ## 3. Interactive Components
 - **Quiz Element**: Create multiple-choice questions. Students receive real-time feedback (Correct/Wrong) upon clicking an option.
-- **Audio Element**: High-end playback control with a built-in sound library for background ambiance (Nature, Music, Tech, etc.).
+- **Audio Element**: High-end playback control. Support for hidden background playback to create professional listening comprehension scenarios.
+- **Essay & Quiz (UX)**: Refined layout with fixed headers and footers. Scrollbars appear only within the input/content area, keeping titles and submit buttons always in view.
 
 ## 4. Presentation & Flow Control
 - **Slide Timelock**: Set a minimum viewing time (0-60s) for each slide before navigation is allowed.
@@ -35,5 +36,16 @@ Easily add basic geometric shapes to your slide from the left toolbar:
 - `Delete` / `Backspace`: Quickly remove selected elements.
 - `Ctrl + Scroll`: Zoom in/out of the workspace.
 
+## 7. Sequential Interaction Flow
+
+Instead of overwhelming students with all content at once, the Studio supports a professional pedagogical flow:
+- **Hidden by Default**: Navigation buttons or activities can be hidden when the slide starts.
+- **Unlockable Content**: Next steps or subsequent quiz questions only reveal once the student completes the current game or task.
+
+## 8. Background Audio & Scripting
+
+- **Audio Trigger**: Audio elements can be configured to "trigger" (reveal) other elements, such as showing a hidden quiz immediately after the playback ends.
+- **Persistence Logic**: Clever CSS-based hiding allows background audio to play seamlessly even if the control interface is hidden from the user.
+
 ---
-*Last updated: March 31, 2026 (Refactor & Sync)*
+*Last updated: April 1, 2026 (Sequential Flow & Audio Interaction)*

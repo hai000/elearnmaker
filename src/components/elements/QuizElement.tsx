@@ -11,6 +11,7 @@ export default function QuizElement({
   isSelected,
   onSelect,
   interactive,
+  onAction,
   elementRef,
 }: CanvasElementProps) {
   if (element.type !== "quiz") {
@@ -30,7 +31,7 @@ export default function QuizElement({
       ref={elementRef}
     >
       {interactive === false ? (
-        <QuizInteractive element={quizElement} />
+        <QuizInteractive element={quizElement} onAction={onAction} />
       ) : (
         <div className="flex h-full flex-col overflow-y-auto p-4">
           <p

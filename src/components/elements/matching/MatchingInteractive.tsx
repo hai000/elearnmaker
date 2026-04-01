@@ -1,18 +1,23 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import { MatchingElement, MatchingPair } from "@/store/types";
+import { MatchingElement, MatchingPair, SlideElement } from "@/store/types";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { RotateCcw, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { useEditorStore } from "@/store/editorStore";
+import { GameFeedback } from "../shared/GameFeedback";
 
 interface MatchingInteractiveProps {
   element: MatchingElement;
   isDisabled?: boolean;
+  onAction?: (element: SlideElement) => void;
 }
 
-export function MatchingInteractive({ element, isDisabled }: MatchingInteractiveProps) {
+export function MatchingInteractive({ element, isDisabled, onAction }: MatchingInteractiveProps) {
+  const setElementCompleted = useEditorStore((state) => state.setElementCompleted);
+  const setGameFeedback = useEditorStore((state) => state.setGameFeedback);
   const { pairs, title, textColor, itemSize, titleSize } = element.props;
   
   // pool: items available to be picked
@@ -22,6 +27,7 @@ export function MatchingInteractive({ element, isDisabled }: MatchingInteractive
   
   const [selectedPoolId, setSelectedPoolId] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isDismissed, setIsDismissed] = useState(false);
   const [isError, setIsError] = useState(false);
   
   // Initialize and shuffle
@@ -73,9 +79,22 @@ export function MatchingInteractive({ element, isDisabled }: MatchingInteractive
     
     if (allCorrect) {
       setIsSuccess(true);
+      setElementCompleted(element.id, true);
+      setGameFeedback({
+        status: "success",
+        onDismiss: () => {
+          setIsDismissed(true);
+          if (onAction) onAction(element);
+        },
+        onRetry: handleReset
+      });
     } else {
       setIsError(true);
-      setTimeout(() => setIsError(false), 2000);
+      setGameFeedback({
+        status: "error",
+        onDismiss: () => setIsError(false),
+        onRetry: handleReset
+      });
     }
   };
 
@@ -86,11 +105,16 @@ export function MatchingInteractive({ element, isDisabled }: MatchingInteractive
     pairs.forEach(p => { initialSlots[p.id] = null; });
     setSlots(initialSlots);
     setIsSuccess(false);
+    setIsDismissed(false);
     setSelectedPoolId(null);
   };
 
+  const handleDismiss = () => {
+    setIsDismissed(true);
+  };
+
   return (
-    <div className="flex flex-col h-full p-4 overflow-hidden bg-slate-50/30">
+    <div className="relative flex flex-col h-full p-4 overflow-hidden bg-slate-50/30">
       <h3 className="font-bold text-center mb-6 shrink-0" style={{ color: textColor, fontSize: titleSize }}>
         {title || "Ghép các cặp tương ứng"}
       </h3>
@@ -172,31 +196,6 @@ export function MatchingInteractive({ element, isDisabled }: MatchingInteractive
 
       {/* Logic & Footer */}
       <div className="mt-6 flex flex-col gap-3 shrink-0">
-        <AnimatePresence>
-          {isError && (
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="text-center text-red-500 font-bold text-sm bg-red-50 p-2 rounded-lg border border-red-200"
-            >
-              Cấu trúc chưa chính xác, hãy kiểm tra lại nhé!
-            </motion.div>
-          )}
-          {isSuccess && (
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="bg-emerald-500 text-white p-4 rounded-2xl flex flex-col items-center gap-2 shadow-xl"
-            >
-              <CheckCircle2 className="w-10 h-10" />
-              <div className="text-lg font-bold uppercase tracking-tight">Thật tuyệt vời!</div>
-              <p className="text-sm opacity-90 text-center">Bạn đã ghép chính xác tất cả các cặp kiến thức.</p>
-              <Button variant="secondary" className="mt-2 font-bold px-8" onClick={handleReset}>Thử lại</Button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
         {!isSuccess && (
           <div className="flex gap-2">
             <Button 

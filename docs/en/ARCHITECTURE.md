@@ -16,7 +16,12 @@ This document explains the technical underpinnings of the Editor, from project s
     - `types/`: Modularized type system (elements, slides, assets, editor, history, events).
     - `utils.ts`: Helper functions (ID generation, snapshots, duplication).
     - `initialState.ts`: Default demo data.
-    - `slices/`: Specialized store logic (UI, Slide, Element, History, Asset, Event).
+    - `slices/`: Specialized store logic:
+        - `slideSlice`: Manages slide lists, creation, deletion.
+        - `elementSlice`: Manages slide elements, positioning, and properties.
+        - `uiSlice` (New): Global UI state (Game feedback, visibility overrides).
+        - `eventSlice`: Events and actions.
+        - `historySlice`: Undo/Redo logic.
     - `editorStore.ts`: Combined store utilizing all modular slices.
 - `src/constants/`: Shared constants (Preview devices, Sidebar configuration).
 - `src/plugins/registry.tsx`: Central hub for registering Canvas renderers and Properties Panels.
@@ -44,5 +49,18 @@ The Viewer is engineered to render 16:9 content (960x540) perfectly on any devic
 - **Layering**: Managed via the `zIndex` property. New elements receive `max(zIndex) + 1`.
 - **Undo/Redo**: The Sliced Store automatically captures state snapshots upon interaction completion (e.g., `onMouseUp` or `onChange`).
 
+## 6. Centralized Feedback System
+
+The Studio now uses a centralized feedback architecture for consistent user interaction:
+- **Scaling & Coordinates**: The `GameFeedback` component is rendered directly within the `SlideContainer`. This ensures that all notifications (Correct/Wrong) scale perfectly with the slide's 16:9 ratio, eliminating positioning errors on mobile or widescreen desktops.
+- **State Management**: Feedback visibility and content are managed via `uiSlice.gameFeedback` in the store, making the interaction reactive and easy to maintain.
+
+## 7. Sequential Interaction Trigger
+
+Professional interactive lessons (e.g., "Complete task X to reveal task Y") are implemented using a sequential reveal mechanism:
+- **Visibility Overrides**: The store maintains an `elementVisibilityOverrides` list that overrides an element's default `hidden` property during runtime.
+- **Triggers**: When an event occurs (e.g., Game completion, Audio end), components call the `onAction` method with type `show_element` and target IDs.
+- **Persistence Logic**: Instead of unmounting hidden elements, the Studio uses CSS `display: none`. This is critical for background processes (like the Audio player) to continue running smoothly even when the control interface is hidden.
+
 ---
-*Last updated: March 31, 2026 (UI Standardization & Responsive Viewer)*
+*Last updated: April 1, 2026 (Centralized Feedback & Sequential Flow)*

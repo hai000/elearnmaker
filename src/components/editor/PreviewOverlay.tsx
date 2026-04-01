@@ -109,11 +109,12 @@ export default function PreviewOverlay({ open, onClose }: PreviewOverlayProps) {
   const frameHeight = Math.round(device.height * frameScale);
 
   const handleElementAction = (element: (typeof elements)[number]) => {
-    if (element.type !== "button") {
-      return;
-    }
+    const state = useEditorStore.getState();
+    const props = element.props as any;
+    const actionType = props.actionType;
+    if (!actionType || actionType === "none") return;
 
-    if (element.props.actionType === "go_to_slide") {
+    if (actionType === "go_to_slide") {
       // Check Timelock
       if (currentSlide?.minDuration) {
         const elapsedSeconds = (Date.now() - entryTimeRef.current) / 1000;
@@ -130,14 +131,14 @@ export default function PreviewOverlay({ open, onClose }: PreviewOverlayProps) {
         }
       }
 
-      const targetSlideId = element.props.targetSlideId.trim();
-      const targetSlide = slides.find((slide) => slide.id === targetSlideId);
+      const targetSlideId = (props.targetSlideId || "").trim();
+      const targetSlide = state.slides.find((slide) => slide.id === targetSlideId);
 
       if (!targetSlide) {
         emitEditorEvent({
-          type: "button.go_to_slide.missing",
-          source: "button",
-          slideId: currentSlideId,
+          type: "element.go_to_slide.missing",
+          source: element.type,
+          slideId: state.currentSlideId,
           elementId: element.id,
           payload: { targetSlideId },
         });
@@ -146,8 +147,8 @@ export default function PreviewOverlay({ open, onClose }: PreviewOverlayProps) {
       }
 
       emitEditorEvent({
-        type: "button.go_to_slide",
-        source: "button",
+        type: "element.go_to_slide",
+        source: element.type,
         slideId: currentSlideId,
         elementId: element.id,
         payload: {
@@ -155,13 +156,12 @@ export default function PreviewOverlay({ open, onClose }: PreviewOverlayProps) {
           targetSlideTitle: targetSlide.title,
         },
       });
-      setActionMessage(`Chuyển tới ${targetSlide.title}`);
-      selectSlide(targetSlide.id);
+      state.selectSlide(targetSlide.id);
       return;
     }
 
-    if (["show_element", "hide_element", "toggle_element"].includes(element.props.actionType)) {
-      const targetIds = element.props.targetElementIds || [];
+    if (["show_element", "hide_element", "toggle_element"].includes(actionType)) {
+      const targetIds = props.targetElementIds || [];
       if (targetIds.length === 0) {
         setActionMessage("No target elements selected.");
         return;
@@ -169,35 +169,37 @@ export default function PreviewOverlay({ open, onClose }: PreviewOverlayProps) {
 
       setElementVisibilityOverrides((prev) => {
         const next = { ...prev };
-        targetIds.forEach((id) => {
-          if (element.props.actionType === "show_element") next[id] = true;
-          if (element.props.actionType === "hide_element") next[id] = false;
-          if (element.props.actionType === "toggle_element") {
-            const currentVisibility = next[id] ?? !(elements.find((e) => e.id === id)?.hidden);
-            next[id] = !currentVisibility;
+        targetIds.forEach((id: string) => {
+          if (actionType === "show_element") {
+            next[id] = true;
+          } else if (actionType === "hide_element") {
+            next[id] = false;
+          } else if (actionType === "toggle_element") {
+            // Find the base element in the store if no override exists
+            const baseElement = state.elements.find(e => e.id === id);
+            const currentVal = next[id] !== undefined ? next[id] : !(baseElement?.hidden);
+            next[id] = !currentVal;
           }
         });
         return next;
       });
 
       emitEditorEvent({
-        type: `button.${element.props.actionType}`,
-        source: "button",
+        type: `element.${actionType}`,
+        source: element.type,
         slideId: currentSlideId,
         elementId: element.id,
         payload: { targetElementIds: targetIds },
       });
-      setActionMessage(`Executed ${element.props.actionType.replace("_", " ")} on ${targetIds.length} element(s)`);
       return;
     }
 
-    emitEditorEvent({
-      type: "button.none",
-      source: "button",
-      slideId: currentSlideId,
+    state.emitEditorEvent({
+      type: "element.none",
+      source: element.type,
+      slideId: state.currentSlideId,
       elementId: element.id,
     });
-    setActionMessage("Button chưa có action.");
   };
 
   return (

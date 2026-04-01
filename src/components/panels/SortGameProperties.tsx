@@ -9,6 +9,7 @@ import { PropertyCard } from "./properties/PropertyCard";
 import { Plus, Trash2, ListOrdered, Settings2, Palette } from "lucide-react";
 import type { PropertiesPanelProps } from "@/plugins/registry";
 import { VisibilityProperties } from "./properties/VisibilityProperties";
+import { ActionProperties } from "./properties/ActionProperties";
 import { ColorPickerField } from "@/components/ui/color-picker";
 import type { SortGameElement } from "@/store/types";
 
@@ -153,9 +154,15 @@ export default function SortGameProperties({ element, updateElement }: Propertie
           />
         </div>
 
-        <Separator className="opacity-50" />
-        <VisibilityProperties element={element} updateElement={updateElement} />
       </PropertyCard>
+
+      <VisibilityProperties element={element} updateElement={updateElement} />
+
+      <ActionProperties 
+        element={element} 
+        updateElement={updateElement} 
+        title="Hành động khi xếp đúng" 
+      />
     </div>
   );
 }

@@ -4,6 +4,14 @@ import type { MediaAsset } from "./assets";
 import type { EditorEvent } from "./events";
 import type { HistorySnapshot } from "./history";
 
+export type GameFeedbackState = {
+  status: "success" | "error";
+  title?: string;
+  message?: string;
+  onDismiss?: () => void;
+  onRetry?: () => void;
+};
+
 export type EditorState = {
   slides: Slide[];
   currentSlideId: string;
@@ -17,9 +25,13 @@ export type EditorState = {
   zoom: number;
   isEditingText: boolean;
   isDirty: boolean;
+  interactionState: Record<string, boolean>;
+  gameFeedback: GameFeedbackState | null; // New: Global game feedback
   toggleShowHiddenElements: () => void;
   setZoom: (zoom: number) => void;
   setIsEditingText: (isEditing: boolean) => void;
+  setElementCompleted: (id: string, completed: boolean) => void;
+  setGameFeedback: (feedback: GameFeedbackState | null) => void; // New: Action to show feedback
   saveSnapshot: () => void;
   undo: () => void;
   redo: () => void;

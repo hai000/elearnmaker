@@ -10,6 +10,7 @@ export default function GuessWordElement({
   isSelected,
   onSelect,
   interactive,
+  onAction,
   elementRef,
 }: CanvasElementProps) {
   if (element.type !== "guess_word") {
@@ -32,6 +33,7 @@ export default function GuessWordElement({
         <GuessWordInteractive
           element={guessWordElement}
           isDisabled={interactive}
+          onAction={onAction}
         />
 
         {interactive && (

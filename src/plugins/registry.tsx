@@ -45,6 +45,9 @@ export type PropertiesPanelProps = {
 type RegistryEntry = {
   canvasComponent: (props: CanvasElementProps) => ReactElement | null;
   propertiesPanel: (props: PropertiesPanelProps) => ReactElement | null;
+  meta?: {
+    isCompletable?: boolean; // Is this element interactive/completable?
+  };
 };
 
 export const pluginRegistry: Record<SlideElement["type"], RegistryEntry> = {
@@ -63,6 +66,7 @@ export const pluginRegistry: Record<SlideElement["type"], RegistryEntry> = {
   quiz: {
     canvasComponent: QuizElement,
     propertiesPanel: QuizProperties,
+    meta: { isCompletable: true },
   },
   image: {
     canvasComponent: ImageElement,
@@ -71,14 +75,17 @@ export const pluginRegistry: Record<SlideElement["type"], RegistryEntry> = {
   video: {
     canvasComponent: VideoElement,
     propertiesPanel: VideoProperties,
+    meta: { isCompletable: true },
   },
   audio: {
     canvasComponent: AudioElement,
     propertiesPanel: AudioProperties,
+    meta: { isCompletable: true },
   },
   sort_game: {
     canvasComponent: SortGameElement,
     propertiesPanel: SortGameProperties,
+    meta: { isCompletable: true },
   },
   wheel_plugin: {
     canvasComponent: WheelPlugin,
@@ -91,14 +98,17 @@ export const pluginRegistry: Record<SlideElement["type"], RegistryEntry> = {
   guess_word: {
     canvasComponent: GuessWordElement,
     propertiesPanel: GuessWordProperties,
+    meta: { isCompletable: true },
   },
   matching: {
     canvasComponent: MatchingElement,
     propertiesPanel: MatchingProperties,
+    meta: { isCompletable: true },
   },
   essay: {
     canvasComponent: EssayElement,
     propertiesPanel: EssayProperties,
+    meta: { isCompletable: true },
   },
 };
 

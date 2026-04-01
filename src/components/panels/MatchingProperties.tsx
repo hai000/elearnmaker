@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import type { PropertiesPanelProps } from "@/plugins/registry";
 import { VisibilityProperties } from "./properties/VisibilityProperties";
+import { ActionProperties } from "./properties/ActionProperties";
 import { PropertyCard } from "./properties/PropertyCard";
 import type { MatchingElement, MatchingPair } from "@/store/types";
 import { Plus, Trash2, ArrowRightLeft, Info, Palette } from "lucide-react";
@@ -152,9 +153,15 @@ export default function MatchingProperties({ element, updateElement }: Propertie
           />
         </div>
 
-        <Separator className="opacity-50" />
-        <VisibilityProperties element={element} updateElement={updateElement} />
       </PropertyCard>
+
+      <VisibilityProperties element={element} updateElement={updateElement} />
+
+      <ActionProperties 
+        element={element} 
+        updateElement={updateElement} 
+        title="Hành động khi nối đúng" 
+      />
     </div>
   );
 }

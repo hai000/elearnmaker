@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import type { PropertiesPanelProps } from "@/plugins/registry";
 import { ColorPickerField } from "@/components/ui/color-picker";
 import { Input } from "@/components/ui/input";
@@ -8,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { VisibilityProperties } from "./properties/VisibilityProperties";
+import { ActionProperties } from "./properties/ActionProperties";
 import { PropertyCard } from "./properties/PropertyCard";
 import { Trash2, PlusCircle, HelpCircle, CheckCircle2, Palette } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -41,8 +41,8 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
 
   return (
     <div className="space-y-4 pb-6">
-      <PropertyCard 
-        title="Nội dung câu hỏi" 
+      <PropertyCard
+        title="Nội dung câu hỏi"
         icon={<HelpCircle className="w-4 h-4 text-blue-500" />}
       >
         <div className="grid gap-2 min-w-0">
@@ -72,14 +72,14 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
         </div>
       </PropertyCard>
 
-      <PropertyCard 
-        title="Đáp án & Thiết lập" 
+      <PropertyCard
+        title="Đáp án & Thiết lập"
         icon={<CheckCircle2 className="w-4 h-4 text-emerald-500" />}
         action={
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="h-7 px-2 text-[10px] uppercase font-bold text-blue-600 hover:text-blue-700 hover:bg-blue-50" 
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 px-2 text-[10px] uppercase font-bold text-blue-600 hover:text-blue-700 hover:bg-blue-50"
             onClick={handleAddOption}
           >
             <PlusCircle className="mr-1.5 h-3.5 w-3.5" />
@@ -148,8 +148,8 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
         </div>
       </PropertyCard>
 
-      <PropertyCard 
-        title="Giao diện & Màu sắc" 
+      <PropertyCard
+        title="Giao diện & Màu sắc"
         icon={<Palette className="w-4 h-4 text-purple-500" />}
       >
         <div className="grid grid-cols-2 gap-4">
@@ -203,10 +203,16 @@ export default function QuizProperties({ element, updateElement }: PropertiesPan
             }
           />
         </div>
-        
-        <Separator className="opacity-50" />
-        <VisibilityProperties element={element} updateElement={updateElement} />
+
       </PropertyCard>
+
+      <VisibilityProperties element={element} updateElement={updateElement} />
+
+      <ActionProperties
+        element={element}
+        updateElement={updateElement}
+        title="Hành động khi làm đúng"
+      />
     </div>
   );
 }
